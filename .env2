@@ -1,0 +1,9 @@
+1 # You can generate a real secret with `npx auth secret`
+   2 AUTH_SECRET="tqhy+TKwT3GhLEY60+BTMhhyKQxMipdegwcy7RAynuE=" 
+   3 
+   4 # These are just placeholders to satisfy the environment validation
+   5 AUTH_DISCORD_ID="dummy"
+   6 AUTH_DISCORD_SECRET="dummy"
+   7 
+   8 # This is the default database connection string
+   9 DATABASE_URL="postgresql://postgres:cXsjlt9nQl347jBb@db.akyxdbebkhlhgmbknfky.supabase.co:5432/postgres"
