@@ -3,9 +3,9 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { Geist } from "next/font/google";
 
-import { api } from "AIAYANAL/utils/api";
+import { api } from "~/utils/api";
 
-import "AIAYANAL/styles/globals.css";
+import "~/styles/globals.css";
 
 const geist = Geist({
   subsets: ["latin"],

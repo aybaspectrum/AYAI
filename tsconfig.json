@@ -27,7 +27,7 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "AIAYANAL/*": ["./src/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": [
