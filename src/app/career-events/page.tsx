@@ -6,6 +6,13 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { CareerEventType } from "@prisma/client";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { useToast } from "~/hooks/use-toast";
+import { Loader2, Plus, Calendar, Building, User, FileText } from "lucide-react";
 
 export default function CareerEventsPage() {
   const { data: session } = useSession();
@@ -20,14 +27,51 @@ export default function CareerEventsPage() {
     startDate: "",
     endDate: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const { toast } = useToast();
 
   // tRPC queries and mutations
   const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery();
   const createCareerEventMutation = api.careerEvent.create.useMutation();
 
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.title.trim()) {
+      newErrors.title = "Title is required";
+    }
+    if (!formData.organization.trim()) {
+      newErrors.organization = "Organization is required";
+    }
+    if (!formData.description.trim()) {
+      newErrors.description = "Description is required";
+    }
+    if (!formData.startDate) {
+      newErrors.startDate = "Start date is required";
+    }
+    if (formData.endDate && formData.startDate && new Date(formData.endDate) < new Date(formData.startDate)) {
+      newErrors.endDate = "End date must be after start date";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the errors in the form before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
+    setErrors({});
 
     try {
       await createCareerEventMutation.mutateAsync({
@@ -49,22 +93,41 @@ export default function CareerEventsPage() {
         endDate: "",
       });
       setShowForm(false);
-      
+
       // Refetch the career events list
       await refetch();
-      
-      alert("Career event added successfully!");
+
+      toast({
+        title: "Success!",
+        description: "Career event added successfully.",
+      });
     } catch (error) {
       console.error("Error creating career event:", error);
-      alert("Error creating career event. Please try again.");
+      toast({
+        title: "Error",
+        description: "Failed to create career event. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user makes selection
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
   if (!session) {
@@ -104,12 +167,20 @@ export default function CareerEventsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Add New Event Button */}
         <div className="mb-8">
-          <button
+          <Button
             onClick={() => setShowForm(!showForm)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            variant={showForm ? "outline" : "default"}
+            size="lg"
           >
-            {showForm ? "Cancel" : "Add New Career Event"}
-          </button>
+            {showForm ? (
+              "Cancel"
+            ) : (
+              <>
+                <Plus className="w-4 h-4 mr-2" />
+                Add New Career Event
+              </>
+            )}
+          </Button>
         </div>
 
         {/* Form */}
@@ -118,124 +189,134 @@ export default function CareerEventsPage() {
             <h2 className="text-xl font-semibold mb-6">Add New Career Event</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Type */}
-              <div>
-                <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-2">
+                <Label htmlFor="type" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
                   Type *
-                </label>
-                <select
-                  id="type"
-                  name="type"
-                  value={formData.type}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value={CareerEventType.JOB}>Job</option>
-                  <option value={CareerEventType.PROJECT}>Project</option>
-                  <option value={CareerEventType.EDUCATION}>Education</option>
-                  <option value={CareerEventType.ACCOMPLISHMENT}>Accomplishment</option>
-                </select>
+                </Label>
+                <Select value={formData.type} onValueChange={(value) => handleSelectChange("type", value)}>
+                  <SelectTrigger className={errors.type ? "border-red-500" : ""}>
+                    <SelectValue placeholder="Select event type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={CareerEventType.JOB}>Job</SelectItem>
+                    <SelectItem value={CareerEventType.PROJECT}>Project</SelectItem>
+                    <SelectItem value={CareerEventType.EDUCATION}>Education</SelectItem>
+                    <SelectItem value={CareerEventType.ACCOMPLISHMENT}>Accomplishment</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.type && <p className="text-sm text-red-500">{errors.type}</p>}
               </div>
 
               {/* Title */}
-              <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-2">
+                <Label htmlFor="title" className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
                   Title *
-                </label>
-                <input
-                  type="text"
+                </Label>
+                <Input
                   id="title"
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  required
                   placeholder="e.g., Senior Software Engineer"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={errors.title ? "border-red-500" : ""}
                 />
+                {errors.title && <p className="text-sm text-red-500">{errors.title}</p>}
               </div>
 
               {/* Organization */}
-              <div>
-                <label htmlFor="organization" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-2">
+                <Label htmlFor="organization" className="flex items-center gap-2">
+                  <Building className="w-4 h-4" />
                   Organization *
-                </label>
-                <input
-                  type="text"
+                </Label>
+                <Input
                   id="organization"
                   name="organization"
                   value={formData.organization}
                   onChange={handleInputChange}
-                  required
                   placeholder="e.g., Google, Stanford University"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={errors.organization ? "border-red-500" : ""}
                 />
+                {errors.organization && <p className="text-sm text-red-500">{errors.organization}</p>}
               </div>
 
               {/* Description */}
-              <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-2">
+                <Label htmlFor="description" className="flex items-center gap-2">
+                  <FileText className="w-4 h-4" />
                   Description *
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   id="description"
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  required
                   rows={4}
                   placeholder="Describe your role, responsibilities, achievements..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={errors.description ? "border-red-500" : ""}
                 />
+                {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
               </div>
 
               {/* Start Date */}
-              <div>
-                <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-2">
+                <Label htmlFor="startDate" className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
                   Start Date *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   id="startDate"
                   name="startDate"
                   value={formData.startDate}
                   onChange={handleInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={errors.startDate ? "border-red-500" : ""}
                 />
+                {errors.startDate && <p className="text-sm text-red-500">{errors.startDate}</p>}
               </div>
 
               {/* End Date */}
-              <div>
-                <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-2">
+                <Label htmlFor="endDate" className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
                   End Date (optional)
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   id="endDate"
                   name="endDate"
                   value={formData.endDate}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={errors.endDate ? "border-red-500" : ""}
                 />
-                <p className="text-sm text-gray-500 mt-1">Leave empty if this is your current position</p>
+                {errors.endDate && <p className="text-sm text-red-500">{errors.endDate}</p>}
+                <p className="text-sm text-muted-foreground">Leave empty if this is your current position</p>
               </div>
 
               {/* Submit Button */}
               <div className="flex justify-end space-x-4">
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={() => setShowForm(false)}
-                  className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={isLoading}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? "Saving..." : "Save Career Event"}
-                </button>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Career Event"
+                  )}
+                </Button>
               </div>
             </form>
           </div>
