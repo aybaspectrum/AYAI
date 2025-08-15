@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { CareerEventType } from "@prisma/client";
@@ -17,7 +16,6 @@ import { Loader2, Plus, Calendar, Building, User, FileText } from "lucide-react"
 
 export default function CareerEventsPage() {
   const { data: session } = useSession();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
