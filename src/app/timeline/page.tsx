@@ -6,11 +6,16 @@ import { api } from "~/trpc/react";
 import { Timeline } from "~/components/ui/timeline";
 import { TextGenerateEffect } from "~/components/ui/text-generate-effect";
 import { BackgroundBeams } from "~/components/ui/background-beams";
+import { Button } from "~/components/ui/button";
+import { useToast } from "~/hooks/use-toast";
 import { CareerEventType } from "@prisma/client";
+import { Trash2, Loader2 } from "lucide-react";
 
 export default function TimelinePage() {
   const { data: session } = useSession();
-  const { data: careerEvents } = api.careerEvent.getAll.useQuery();
+  const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery();
+  const deleteCareerEventMutation = api.careerEvent.delete.useMutation();
+  const { toast } = useToast();
 
   if (!session) {
     return (
@@ -25,12 +30,34 @@ export default function TimelinePage() {
     );
   }
 
+  const handleDelete = async (eventId: string, eventTitle: string) => {
+    if (!confirm(`Are you sure you want to delete "${eventTitle}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteCareerEventMutation.mutateAsync({ id: eventId });
+      await refetch();
+      toast({
+        title: "Success!",
+        description: "Career event deleted successfully.",
+      });
+    } catch (error) {
+      console.error("Error deleting career event:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete career event. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   // Transform career events into timeline data
   const timelineData = careerEvents?.map((event) => ({
     title: new Date(event.startDate).getFullYear().toString(),
     content: (
       <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700">
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center justify-between mb-3">
           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
             event.type === CareerEventType.JOB ? 'bg-blue-100 text-blue-800' :
             event.type === CareerEventType.PROJECT ? 'bg-green-100 text-green-800' :
@@ -39,6 +66,19 @@ export default function TimelinePage() {
           }`}>
             {event.type}
           </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleDelete(event.id, event.title)}
+            disabled={deleteCareerEventMutation.isPending}
+            className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+          >
+            {deleteCareerEventMutation.isPending ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Trash2 className="w-4 h-4" />
+            )}
+          </Button>
         </div>
         
         <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">

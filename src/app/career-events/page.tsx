@@ -12,7 +12,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { TextGenerateEffect } from "~/components/ui/text-generate-effect";
 import { useToast } from "~/hooks/use-toast";
-import { Loader2, Plus, Calendar, Building, User, FileText } from "lucide-react";
+import { Loader2, Plus, Calendar, Building, User, FileText, Trash2 } from "lucide-react";
 
 export default function CareerEventsPage() {
   const { data: session } = useSession();
@@ -33,6 +33,7 @@ export default function CareerEventsPage() {
   // tRPC queries and mutations
   const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery();
   const createCareerEventMutation = api.careerEvent.create.useMutation();
+  const deleteCareerEventMutation = api.careerEvent.delete.useMutation();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -126,6 +127,28 @@ export default function CareerEventsPage() {
     // Clear error when user makes selection
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleDelete = async (eventId: string, eventTitle: string) => {
+    if (!confirm(`Are you sure you want to delete "${eventTitle}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteCareerEventMutation.mutateAsync({ id: eventId });
+      await refetch();
+      toast({
+        title: "Success!",
+        description: "Career event deleted successfully.",
+      });
+    } catch (error) {
+      console.error("Error deleting career event:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete career event. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -340,13 +363,28 @@ export default function CareerEventsPage() {
                 {careerEvents.map((event) => (
                   <div key={event.id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex justify-between items-start mb-2">
-                      <div>
+                      <div className="flex-1">
                         <h3 className="text-lg font-semibold text-gray-900">{event.title}</h3>
                         <p className="text-gray-600">{event.organization}</p>
                       </div>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {event.type}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {event.type}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(event.id, event.title)}
+                          disabled={deleteCareerEventMutation.isPending}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                        >
+                          {deleteCareerEventMutation.isPending ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
+                        </Button>
+                      </div>
                     </div>
                     
                     <p className="text-gray-700 mb-3">{event.description}</p>
