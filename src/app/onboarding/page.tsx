@@ -64,7 +64,7 @@ export default function OnboardingPage() {
             Welcome to SpectrumAI, {session.user?.name}!
           </h1>
           <p className="text-lg text-gray-600">
-            Let's help you build your professional timeline
+            Let&apos;s help you build your professional timeline
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function OnboardingPage() {
           
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
             <h3 className="font-semibold text-blue-900 mb-2">
-              What we'll access and why:
+              What we&apos;ll access and why:
             </h3>
             <ul className="text-blue-800 space-y-2">
               <li className="flex items-start">
