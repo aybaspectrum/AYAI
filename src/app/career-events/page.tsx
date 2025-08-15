@@ -11,6 +11,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { TextGenerateEffect } from "~/components/ui/text-generate-effect";
 import { useToast } from "~/hooks/use-toast";
 import { Loader2, Plus, Calendar, Building, User, FileText } from "lucide-react";
 
@@ -150,12 +151,19 @@ export default function CareerEventsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Career Events</h1>
-              <p className="text-gray-600">Manage your professional timeline</p>
+              <TextGenerateEffect
+                words="Career Events"
+                className="text-3xl font-bold text-gray-900"
+              />
+              <p className="text-gray-600 mt-2">Manage your professional timeline</p>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/" className="text-gray-600 hover:text-gray-900">
                 ← Back to Home
+              </Link>
+              <span className="text-gray-600">|</span>
+              <Link href="/timeline" className="text-blue-600 hover:text-blue-800 font-medium">
+                View Timeline
               </Link>
               <span className="text-gray-600">|</span>
               <span className="text-gray-600">Welcome, {session.user?.name}</span>
