@@ -11,7 +11,7 @@ export const uploadRouter = createTRPCRouter({
         fileType: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
       const { fileName, fileContent, fileType } = input;
 
       // Convert base64 to Buffer

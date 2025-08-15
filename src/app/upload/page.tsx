@@ -18,11 +18,8 @@ export default function UploadPage() {
   const uploadFileMutation = api.upload.uploadFile.useMutation();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0]);
-    } else {
-      setSelectedFile(null);
-    }
+    const file = event.target.files?.[0];
+    setSelectedFile(file ?? null);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -43,7 +40,8 @@ export default function UploadPage() {
     reader.readAsDataURL(selectedFile);
 
     reader.onload = async () => {
-      const base64Content = reader.result?.toString().split(",")[1]; // Get base64 part
+      const result = reader.result;
+      const base64Content = typeof result === 'string' ? result.split(",")[1] : undefined;
 
       if (!base64Content) {
         toast({
