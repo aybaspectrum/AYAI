@@ -46,7 +46,6 @@ const AllTheProviders: React.FC<{ children: React.ReactNode }> = ({
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from '@testing-library/react';
