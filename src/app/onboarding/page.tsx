@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '~/trpc/react';
 import { ConsentScreen } from '~/app/_components/onboarding/ConsentScreen';
 import { LoadingScreen } from '~/components/ui/loading-screen';
+import { useEffect } from 'react';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -14,15 +15,14 @@ export default function OnboardingPage() {
     undefined,
     {
       enabled: status === 'authenticated',
-      // If onboarding is already complete, redirect away
-      onSuccess: (data) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if (data && !data.needsOnboarding) {
-          router.push('/');
-        }
-      },
     },
   );
+
+  useEffect(() => {
+    if (onboardingData && !onboardingData.needsOnboarding) {
+      router.push('/');
+    }
+  }, [onboardingData, router]);
 
   if (status === 'loading' || isLoading) {
     return <LoadingScreen isLoading={true} onComplete={() => { /* intentionally empty */ }} />;
