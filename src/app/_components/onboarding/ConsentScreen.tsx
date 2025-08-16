@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
-import { Button } from "~/app/_components/ui/button";
+import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "~/app/_components/ui/card";
+} from "~/components/ui/card";
 
 export function ConsentScreen() {
   const router = useRouter();
