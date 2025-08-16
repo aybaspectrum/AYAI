@@ -16,6 +16,7 @@ export default function UploadPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const uploadFileMutation = api.upload.uploadFile.useMutation();
+  const processFileMutation = api.upload.processFile.useMutation();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -54,7 +55,7 @@ export default function UploadPage() {
       }
 
       try {
-        const result = await uploadFileMutation.mutateAsync({
+        const uploadResult = await uploadFileMutation.mutateAsync({
           fileName: selectedFile.name,
           fileContent: base64Content,
           fileType: selectedFile.type,
@@ -62,14 +63,24 @@ export default function UploadPage() {
 
         toast({
           title: "Upload successful!",
-          description: `File uploaded to: ${result.url}`,
+          description: `File uploaded to: ${uploadResult.url}`,
+        });
+
+        // Now process the uploaded file
+        const processResult = await processFileMutation.mutateAsync({
+          blobUrl: uploadResult.url,
+        });
+
+        toast({
+          title: "Processing complete!",
+          description: `Imported ${processResult.importedCount} career events.`,
         });
         setSelectedFile(null);
       } catch (error) {
-        console.error("Error uploading file:", error);
+        console.error("Error during file operation:", error);
         toast({
-          title: "Upload failed",
-          description: "Failed to upload file. Please try again.",
+          title: "Operation failed",
+          description: "Failed to upload or process file. Please try again.",
           variant: "destructive",
         });
       } finally {
