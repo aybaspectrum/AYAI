@@ -41,7 +41,7 @@ function CardSkeleton() {
 function TimelineSkeleton() {
   return (
     <div className="space-y-8">
-      {[...Array(3)].map((_, i) => (
+      {Array.from({ length: 3 }).map((_, i) => (
         <div key={i} className="flex space-x-4">
           <div className="flex flex-col items-center">
             <Skeleton className="h-4 w-4 rounded-full" />
