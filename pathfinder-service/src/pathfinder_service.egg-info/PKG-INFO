@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: pathfinder-service
+Version: 0.1.0
+Summary: A service to provide path suggestions to users of the Spectrum Compass.
+Author-email: Jules <jules@example.com>
+Requires-Python: >=3.9
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: redis
+Requires-Dist: pydantic
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: httpx; extra == "dev"

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anonymization-service"
+version = "0.1.0"
+description = "A service to anonymize user events for the Spectrum Compass platform."
+authors = [
+    {name = "Jules", email = "jules@example.com"},
+]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi",      # For health check endpoints
+    "uvicorn",      # To run the FastAPI app
+    "pydantic",     # For data validation against schemas
+    "boto3",        # To interact with AWS services like SQS/Kinesis
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+]

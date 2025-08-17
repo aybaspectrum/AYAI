@@ -1,0 +1,13 @@
+[
+  {"goal": "Learn Python", "first_step": "Install Python & VS Code"},
+  {"goal": "Learn Python", "first_step": "Install Python & VS Code"},
+  {"goal": "Learn Python", "first_step": "Read 'Automate the Boring Stuff'"},
+  {"goal": "Learn Python", "first_step": "Install Python & VS Code"},
+  {"goal": "Run a Marathon", "first_step": "Buy running shoes"},
+  {"goal": "Run a Marathon", "first_step": "Run 5k"},
+  {"goal": "Run a Marathon", "first_step": "Buy running shoes"},
+  {"goal": "Learn Guitar", "first_step": "Buy an acoustic guitar"},
+  {"goal": "Learn Guitar", "first_step": "Learn basic chords (G, C, D)"},
+  {"goal": "Learn Guitar", "first_step": "Learn basic chords (G, C, D)"},
+  {"goal": "Learn Guitar", "first_step": "Learn basic chords (G, C, D)"}
+]

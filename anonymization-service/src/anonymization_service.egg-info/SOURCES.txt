@@ -1,0 +1,10 @@
+pyproject.toml
+src/anonymization_service/__init__.py
+src/anonymization_service/main.py
+src/anonymization_service.egg-info/PKG-INFO
+src/anonymization_service.egg-info/SOURCES.txt
+src/anonymization_service.egg-info/dependency_links.txt
+src/anonymization_service.egg-info/requires.txt
+src/anonymization_service.egg-info/top_level.txt
+src/anonymization_service/core/__init__.py
+src/anonymization_service/core/anonymizer.py

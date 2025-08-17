@@ -1,0 +1,14 @@
+{
+  "Learn Python": {
+    "suggestion_text": "Install Python & VS Code",
+    "count": 3
+  },
+  "Run a Marathon": {
+    "suggestion_text": "Buy running shoes",
+    "count": 2
+  },
+  "Learn Guitar": {
+    "suggestion_text": "Learn basic chords (G, C, D)",
+    "count": 3
+  }
+}

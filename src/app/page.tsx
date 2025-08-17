@@ -146,6 +146,29 @@ export default function Home() {
                   </Link>
                 </motion.div>
 
+                {/* Pathfinder Card */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.4 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Link href="/pathfinder" className="block">
+                    <div className="bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                      <div className="flex items-center mb-4">
+                        <div className="bg-teal-500 p-3 rounded-xl group-hover:bg-teal-600 transition-colors">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-900 ml-3 group-hover:text-teal-700 transition-colors">Goal Pathfinder</h3>
+                      </div>
+                      <p className="text-gray-700">Find a proven first step for any professional or personal goal.</p>
+                    </div>
+                  </Link>
+                </motion.div>
+
                 {/* Portfolio Builder Card (Coming Soon) */}
                 <motion.div
                   initial={{ y: 20, opacity: 0 }}

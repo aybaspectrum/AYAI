@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Anonymized Spectrum Compass Event",
+  "description": "Schema for anonymized events stored in the data warehouse. Does NOT contain PII.",
+  "type": "object",
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "event_timestamp": { "type": "string", "format": "date-time" },
+    "event_type": { "type": "string", "enum": ["GOAL_CREATED", "STEP_COMPLETED", "SKILL_ADDED"] },
+    "anonymous_user_id": {
+      "type": "string",
+      "description": "A salted hash of the original user_id."
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "node_id": { "type": "string" },
+        "node_type": { "type": "string", "enum": ["GOAL", "STEP", "SKILL"] },
+        "node_title": { "type": "string" }
+      },
+      "required": ["node_id", "node_type", "node_title"]
+    }
+  },
+  "required": ["event_id", "event_timestamp", "event_type", "anonymous_user_id", "payload"]
+}

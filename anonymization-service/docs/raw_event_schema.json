@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Raw Spectrum Compass Event",
+  "description": "Schema for raw, internal events before anonymization. Contains PII.",
+  "type": "object",
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "event_timestamp": { "type": "string", "format": "date-time" },
+    "event_type": { "type": "string", "enum": ["GOAL_CREATED", "STEP_COMPLETED", "SKILL_ADDED"] },
+    "user_context": {
+      "type": "object",
+      "properties": {
+        "user_id": { "type": "string" },
+        "user_email": { "type": "string", "format": "email" },
+        "session_id": { "type": "string" }
+      },
+      "required": ["user_id", "user_email"]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "node_id": { "type": "string" },
+        "node_type": { "type": "string", "enum": ["GOAL", "STEP", "SKILL"] },
+        "node_title": { "type": "string" },
+        "notes": { "type": ["string", "null"] }
+      },
+      "required": ["node_id", "node_type", "node_title"]
+    }
+  },
+  "required": ["event_id", "event_timestamp", "event_type", "user_context", "payload"]
+}

@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: anonymization-service
+Version: 0.1.0
+Summary: A service to anonymize user events for the Spectrum Compass platform.
+Author-email: Jules <jules@example.com>
+Requires-Python: >=3.9
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: pydantic
+Requires-Dist: boto3
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: black; extra == "dev"

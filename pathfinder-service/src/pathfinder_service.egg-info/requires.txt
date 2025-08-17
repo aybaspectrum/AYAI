@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+redis
+pydantic
+
+[dev]
+pytest
+pytest-cov
+black
+httpx

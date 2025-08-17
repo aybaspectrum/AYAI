@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+boto3
+
+[dev]
+pytest
+pytest-cov
+black

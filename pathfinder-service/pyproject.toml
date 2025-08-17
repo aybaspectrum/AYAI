@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pathfinder-service"
+version = "0.1.0"
+description = "A service to provide path suggestions to users of the Spectrum Compass."
+authors = [
+    {name = "Jules", email = "jules@example.com"},
+]
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "redis",        # For connecting to the key-value store
+    "pydantic",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "httpx",        # Required for FastAPI TestClient
+]
