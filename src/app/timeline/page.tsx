@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { Timeline } from "~/components/ui/timeline";
-import { TextGenerateEffect } from "~/components/ui/text-generate-effect";
 import { BackgroundBeams } from "~/components/ui/background-beams";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/hooks/use-toast";
@@ -77,7 +76,7 @@ export default function TimelinePage() {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground mb-3">{event.description}</p>
+          <p className="text-muted-foreground mb-3 text-justify">{event.description}</p>
           <p className="text-sm text-muted-foreground">
             {new Date(event.startDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {" "}
             {event.endDate ? new Date(event.endDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "Present"}
@@ -93,7 +92,7 @@ export default function TimelinePage() {
       <div className="container relative z-10 py-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold">Professional Timeline</h1>
-          <p className="text-muted-foreground mt-2">Your career journey visualized</p>
+          <p className="text-muted-foreground mt-2 text-justify">Your career journey visualized</p>
         </div>
 
         {timelineData.length > 0 ? (

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { LogOut, User } from "lucide-react";
 
@@ -61,10 +62,12 @@ export function Header() {
                     className="relative h-8 w-8 rounded-full"
                   >
                     {session.user.image ? (
-                      <img
+                      <Image
                         src={session.user.image}
                         alt={session.user.name ?? "User avatar"}
                         className="rounded-full"
+                        width={32}
+                        height={32}
                       />
                     ) : (
                       <User className="h-4 w-4" />

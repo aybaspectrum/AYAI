@@ -1,7 +1,6 @@
 import * as React from "react";
-import Link from "next/link";
 import { SpectrumLogo } from "~/components/ui/spectrum-logo";
-import { Twitter, Github } from "lucide-react";
+import { Twitter, Github, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -10,25 +9,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
           <SpectrumLogo className="h-6 w-6" />
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built by{" "}
-            <a
-              href="https://ui.aceternity.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              Aceternity
-            </a>
-            . The source code is available on{" "}
-            <a
-              href="https://github.com/aybaspectrum/AYAI"
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              GitHub
-            </a>
-            .
+            Spectrumv.io
           </p>
         </div>
         <div className="flex items-center gap-4">
@@ -45,6 +26,13 @@ export function Footer() {
             rel="noreferrer"
           >
             <Github className="h-5 w-5 text-muted-foreground transition-colors hover:text-foreground" />
+          </a>
+          <a
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Linkedin className="h-5 w-5 text-muted-foreground transition-colors hover:text-foreground" />
           </a>
         </div>
       </div>
