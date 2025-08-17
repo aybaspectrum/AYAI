@@ -9,158 +9,112 @@ import { BackgroundBeams } from "~/components/ui/background-beams";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/hooks/use-toast";
 import { CareerEventType } from "@prisma/client";
-import { Trash2, Loader2 } from "lucide-react";
+import { Trash2, Loader2, Plus } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Badge } from "~/components/ui/badge";
 
 export default function TimelinePage() {
   const { data: session } = useSession();
-  const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery();
+  const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery(undefined, {
+    enabled: !!session,
+  });
   const deleteCareerEventMutation = api.careerEvent.delete.useMutation();
   const { toast } = useToast();
 
   if (!session) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Please log in first</h1>
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Go to Login
-          </Link>
-        </div>
+      <div className="container py-12 text-center">
+        <Card className="max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Please Log In</CardTitle>
+            <CardDescription>You need to be logged in to view your timeline.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link href="/login">
+              <Button>Go to Login</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
   const handleDelete = async (eventId: string, eventTitle: string) => {
-    if (!confirm(`Are you sure you want to delete "${eventTitle}"? This action cannot be undone.`)) {
-      return;
-    }
-
+    if (!confirm(`Are you sure you want to delete "${eventTitle}"?`)) return;
     try {
       await deleteCareerEventMutation.mutateAsync({ id: eventId });
       await refetch();
-      toast({
-        title: "Success!",
-        description: "Career event deleted successfully.",
-      });
+      toast({ title: "Success!", description: "Career event deleted." });
     } catch (error) {
       console.error("Error deleting career event:", error);
-      toast({
-        title: "Error",
-        description: "Failed to delete career event. Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Failed to delete event.", variant: "destructive" });
     }
   };
 
-  // Transform career events into timeline data
+  const getBadgeVariant = (type: CareerEventType) => {
+    switch (type) {
+      case CareerEventType.JOB: return "default";
+      case CareerEventType.PROJECT: return "secondary";
+      case CareerEventType.EDUCATION: return "outline";
+      default: return "secondary";
+    }
+  };
+
   const timelineData = careerEvents?.map((event) => ({
     title: new Date(event.startDate).getFullYear().toString(),
     content: (
-      <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700">
-        <div className="flex items-center justify-between mb-3">
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-            event.type === CareerEventType.JOB ? 'bg-blue-100 text-blue-800' :
-            event.type === CareerEventType.PROJECT ? 'bg-green-100 text-green-800' :
-            event.type === CareerEventType.EDUCATION ? 'bg-purple-100 text-purple-800' :
-            'bg-yellow-100 text-yellow-800'
-          }`}>
-            {event.type}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => handleDelete(event.id, event.title)}
-            disabled={deleteCareerEventMutation.isPending}
-            className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-          >
-            {deleteCareerEventMutation.isPending ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Trash2 className="w-4 h-4" />
-            )}
-          </Button>
-        </div>
-        
-        <h3 className="text-xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
-          {event.title}
-        </h3>
-        
-        <p className="text-neutral-600 dark:text-neutral-400 font-medium mb-3">
-          {event.organization}
-        </p>
-        
-        <p className="text-neutral-700 dark:text-neutral-300 mb-4">
-          {event.description}
-        </p>
-        
-        <div className="text-sm text-neutral-500 dark:text-neutral-400">
-          <span>
-            {new Date(event.startDate).toLocaleDateString('en-US', { 
-              month: 'long', 
-              year: 'numeric' 
-            })} - {" "}
-            {event.endDate 
-              ? new Date(event.endDate).toLocaleDateString('en-US', { 
-                  month: 'long', 
-                  year: 'numeric' 
-                })
-              : "Present"
-            }
-          </span>
-        </div>
-      </div>
+      <Card>
+        <CardHeader className="flex flex-row justify-between items-start">
+          <div>
+            <CardTitle>{event.title}</CardTitle>
+            <CardDescription>{event.organization}</CardDescription>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge variant={getBadgeVariant(event.type)}>{event.type}</Badge>
+            <Button variant="ghost" size="icon" onClick={() => handleDelete(event.id, event.title)} disabled={deleteCareerEventMutation.isPending}>
+              {deleteCareerEventMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4 text-destructive" />}
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground mb-3">{event.description}</p>
+          <p className="text-sm text-muted-foreground">
+            {new Date(event.startDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {" "}
+            {event.endDate ? new Date(event.endDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "Present"}
+          </p>
+        </CardContent>
+      </Card>
     ),
   })) ?? [];
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 relative">
+    <div className="relative min-h-screen">
       <BackgroundBeams />
-      
-      {/* Header */}
-      <div className="bg-white dark:bg-neutral-900 shadow relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div>
-              <TextGenerateEffect 
-                words="Professional Timeline" 
-                className="text-3xl font-bold text-gray-900 dark:text-white"
-              />
-              <p className="text-gray-600 dark:text-gray-400 mt-2">
-                Your career journey visualized
-              </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/career-events" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                ← Back to Career Events
-              </Link>
-              <span className="text-gray-600 dark:text-gray-400">|</span>
-              <span className="text-gray-600 dark:text-gray-400">Welcome, {session.user?.name}</span>
-            </div>
-          </div>
+      <div className="container relative z-10 py-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold">Professional Timeline</h1>
+          <p className="text-muted-foreground mt-2">Your career journey visualized</p>
         </div>
-      </div>
 
-      {/* Timeline Content */}
-      <div className="relative z-10">
         {timelineData.length > 0 ? (
           <Timeline data={timelineData} />
         ) : (
-          <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-                No Career Events Yet
-              </h2>
-              <p className="text-neutral-600 dark:text-neutral-400 mb-8">
+          <Card className="max-w-2xl mx-auto text-center">
+            <CardHeader>
+              <CardTitle>Your Timeline is Empty</CardTitle>
+              <CardDescription>
                 Add some career events to see your professional timeline come to life!
-              </p>
-              <Link 
-                href="/career-events"
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Add Your First Career Event
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/career-events">
+                <Button>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Your First Event
+                </Button>
               </Link>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         )}
       </div>
     </div>
