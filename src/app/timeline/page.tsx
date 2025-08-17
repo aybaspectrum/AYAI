@@ -113,53 +113,29 @@ export default function TimelinePage() {
   })) ?? [];
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-950 relative">
+    <div className="relative bg-neutral-50 dark:bg-neutral-950">
       <BackgroundBeams />
-      
-      {/* Header */}
-      <div className="bg-white dark:bg-neutral-900 shadow relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div>
-              <TextGenerateEffect 
-                words="Professional Timeline" 
-                className="text-3xl font-bold text-gray-900 dark:text-white"
-              />
-              <p className="text-gray-600 dark:text-gray-400 mt-2">
-                Your career journey visualized
-              </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/career-events" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                ← Back to Career Events
-              </Link>
-              <span className="text-gray-600 dark:text-gray-400">|</span>
-              <span className="text-gray-600 dark:text-gray-400">Welcome, {session.user?.name}</span>
-            </div>
-          </div>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Professional Timeline</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            Your career journey visualized.
+          </p>
         </div>
-      </div>
 
-      {/* Timeline Content */}
-      <div className="relative z-10">
         {timelineData.length > 0 ? (
           <Timeline data={timelineData} />
         ) : (
-          <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
-                No Career Events Yet
-              </h2>
-              <p className="text-neutral-600 dark:text-neutral-400 mb-8">
-                Add some career events to see your professional timeline come to life!
-              </p>
-              <Link 
-                href="/career-events"
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Add Your First Career Event
-              </Link>
-            </div>
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+              No Career Events Yet
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 mb-8">
+              Add some career events to see your professional timeline come to life!
+            </p>
+            <Button asChild>
+              <Link href="/career-events">Add Your First Career Event</Link>
+            </Button>
           </div>
         )}
       </div>

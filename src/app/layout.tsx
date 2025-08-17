@@ -18,14 +18,21 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+import { Footer } from "~/components/Footer";
+import { Header } from "~/components/Header";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body>
+      <body className="flex min-h-screen flex-col">
         <Providers>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </TRPCReactProvider>
           <Toaster />
         </Providers>
       </body>

@@ -22,9 +22,11 @@ export default function ProtectedPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
-      <h1>Protected Content</h1>
-      <p>Welcome, {session.user?.name}!</p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold">Protected Content</h1>
+        <p className="mt-4 text-lg">Welcome, {session.user?.name}!</p>
+      </div>
     </div>
   );
 }

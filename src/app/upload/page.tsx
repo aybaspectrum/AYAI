@@ -113,36 +113,38 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Upload Your Data</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="file">Select File</Label>
-            <Input
-              id="file"
-              type="file"
-              accept=".csv,.pdf,.doc,.docx,.txt"
-              onChange={handleFileChange}
-            />
-            {selectedFile && (
-              <p className="text-sm text-gray-500">Selected: {selectedFile.name}</p>
-            )}
-          </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Uploading...
-              </>
-            ) : (
-              <>
-                <Upload className="w-4 h-4 mr-2" />
-                Upload File
-              </>
-            )}
-          </Button>
-        </form>
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <h1 className="text-2xl font-bold mb-6 text-center">Upload Your Data</h1>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="file">Select File</Label>
+              <Input
+                id="file"
+                type="file"
+                accept=".csv,.pdf,.doc,.docx,.txt"
+                onChange={handleFileChange}
+              />
+              {selectedFile && (
+                <p className="text-sm text-gray-500">Selected: {selectedFile.name}</p>
+              )}
+            </div>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload File
+                </>
+              )}
+            </Button>
+          </form>
+        </div>
       </div>
     </div>
   );

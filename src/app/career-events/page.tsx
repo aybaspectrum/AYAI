@@ -166,37 +166,20 @@ export default function CareerEventsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div>
-              <TextGenerateEffect
-                words="Career Events"
-                className="text-3xl font-bold text-gray-900"
-              />
-              <p className="text-gray-600 mt-2">Manage your professional timeline</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-gray-600 hover:text-gray-900">
-                ← Back to Home
-              </Link>
-              <span className="text-gray-600">|</span>
-              <Link href="/timeline" className="text-blue-600 hover:text-blue-800 font-medium">
-                View Timeline
-              </Link>
-              <span className="text-gray-600">|</span>
-              <span className="text-gray-600">Welcome, {session.user?.name}</span>
-            </div>
-          </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-900">Career Events</h1>
+          <p className="text-gray-600 mt-2">Add and manage your professional timeline.</p>
         </div>
+        <Button asChild>
+          <Link href="/timeline">View Timeline</Link>
+        </Button>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Add New Event Button */}
-        <div className="mb-8">
-          <Button
+      {/* Add New Event Button */}
+      <div className="mb-8">
+        <Button
             onClick={() => setShowForm(!showForm)}
             variant={showForm ? "outline" : "default"}
             size="lg"
