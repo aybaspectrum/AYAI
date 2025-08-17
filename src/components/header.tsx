@@ -20,6 +20,7 @@ export function Header() {
   const isLoading = status === "loading";
 
   const navLinks = [
+    { href: "/pitch", label: "Vision" },
     { href: "/career-events", label: "Career Events" },
     { href: "/timeline", label: "Timeline" },
     { href: "/upload", label: "Upload" },
