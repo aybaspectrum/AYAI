@@ -11,9 +11,10 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { useToast } from "~/hooks/use-toast";
-import { Loader2, Plus, Calendar, Building, User, FileText, Trash2 } from "lucide-react";
+import { Loader2, Plus, Calendar, Building, User, FileText, Trash2, Briefcase, GraduationCap, Star } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
+import { CareerEventCard } from "~/components/ui/career-event-card";
 
 export default function CareerEventsPage() {
   const { data: session } = useSession();
@@ -129,12 +130,16 @@ export default function CareerEventsPage() {
     );
   }
 
+  const jobs = careerEvents?.filter(event => event.type === CareerEventType.JOB) ?? [];
+  const education = careerEvents?.filter(event => event.type === CareerEventType.EDUCATION) ?? [];
+  const skills = careerEvents?.filter(event => event.type === CareerEventType.PROJECT || event.type === CareerEventType.ACCOMPLISHMENT) ?? [];
+
   return (
     <div className="container py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold">Career Events</h1>
-          <p className="text-muted-foreground mt-1 text-justify">Manage your professional timeline</p>
+          <p className="text-muted-foreground mt-1">Manage your professional timeline</p>
         </div>
         <Button onClick={() => setShowForm(!showForm)} variant={showForm ? "outline" : "default"}>
           <Plus className="w-4 h-4 mr-2" />
@@ -203,44 +208,82 @@ export default function CareerEventsPage() {
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Career Events</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {careerEvents && careerEvents.length > 0 ? (
-            <div className="space-y-4">
-              {careerEvents.map((event) => (
-                <Card key={event.id}>
-                  <CardHeader className="flex flex-row justify-between items-start">
-                    <div>
-                      <CardTitle>{event.title}</CardTitle>
-                      <CardDescription>{event.organization}</CardDescription>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="secondary">{event.type}</Badge>
-                      <Button variant="ghost" size="icon" onClick={() => handleDelete(event.id, event.title)} disabled={deleteCareerEventMutation.isPending}>
-                        {deleteCareerEventMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4 text-destructive" />}
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground mb-3 text-justify">{event.description}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {new Date(event.startDate).toLocaleDateString()} - {event.endDate ? new Date(event.endDate).toLocaleDateString() : "Present"}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <Briefcase className="w-8 h-8 text-primary" />
+            <h2 className="text-2xl font-bold">Jobs</h2>
+          </div>
+          {jobs.length > 0 ? (
+            jobs.map((event) => (
+              <div key={event.id} className="relative group">
+                <CareerEventCard event={event} />
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => handleDelete(event.id, event.title)}
+                  disabled={deleteCareerEventMutation.isPending}
+                >
+                  {deleteCareerEventMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                </Button>
+              </div>
+            ))
           ) : (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg">No career events yet.</p>
-              <p className="text-sm text-muted-foreground mt-2">Add your first career event to get started!</p>
-            </div>
+            <p className="text-muted-foreground">No job events yet.</p>
           )}
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <GraduationCap className="w-8 h-8 text-primary" />
+            <h2 className="text-2xl font-bold">Education</h2>
+          </div>
+          {education.length > 0 ? (
+            education.map((event) => (
+              <div key={event.id} className="relative group">
+                <CareerEventCard event={event} />
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => handleDelete(event.id, event.title)}
+                  disabled={deleteCareerEventMutation.isPending}
+                >
+                  {deleteCareerEventMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                </Button>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted-foreground">No education events yet.</p>
+          )}
+        </div>
+
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <Star className="w-8 h-8 text-primary" />
+            <h2 className="text-2xl font-bold">Skills & Projects</h2>
+          </div>
+          {skills.length > 0 ? (
+            skills.map((event) => (
+              <div key={event.id} className="relative group">
+                <CareerEventCard event={event} />
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={() => handleDelete(event.id, event.title)}
+                  disabled={deleteCareerEventMutation.isPending}
+                >
+                  {deleteCareerEventMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+                </Button>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted-foreground">No skills or projects yet.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
