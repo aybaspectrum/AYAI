@@ -1,5 +1,4 @@
 import * as React from "react";
-import Link from "next/link";
 import { SpectrumLogo } from "~/components/ui/spectrum-logo";
 import { Twitter, Github } from "lucide-react";
 

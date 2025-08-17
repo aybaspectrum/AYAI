@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 
 export default function PitchPage() {
@@ -15,19 +15,19 @@ export default function PitchPage() {
         <section>
           <h2 className="text-3xl font-bold mb-4 border-b pb-2">Executive Summary</h2>
           <div className="space-y-4 text-muted-foreground">
-            <p>We stand at the dawn of the "Agentic Age," an era where autonomous AI agents promise to revolutionize every industry. However, this proliferation is creating an unprecedented "Complexity Crisis." Managing fleets of opaque, interacting agents is becoming operationally untenable and strategically impossible for human leaders. This crisis is defined by contextual overload, process obfuscation, and strategic drift, threatening to undermine the very productivity gains AI promises.</p>
+            <p>We stand at the dawn of the &quot;Agentic Age,&quot; an era where autonomous AI agents promise to revolutionize every industry. However, this proliferation is creating an unprecedented &quot;Complexity Crisis.&quot; Managing fleets of opaque, interacting agents is becoming operationally untenable and strategically impossible for human leaders. This crisis is defined by contextual overload, process obfuscation, and strategic drift, threatening to undermine the very productivity gains AI promises.</p>
             <p>The current market is bifurcated, leaving a critical need unmet. On one end, low-level, code-intensive developer frameworks like LangChain and Autogen offer power but no strategic visibility. On the other, high-level business applications embed AI but offer no control or custom orchestration. There is a critical, unserved gap for a platform that empowers human strategists to define the what and the why, leaving the how to the machines.</p>
-            <p><strong className="text-foreground">SpectrumAI is a Strategic Visualization and Orchestration Platform</strong> designed to resolve this complexity crisis. It provides a human-centric interface to design, visualize, and steer complex agentic workflows, acting as the "map and compass" for the Agentic Age. It makes the strategic intent behind AI operations explicit, manageable, and adaptable.</p>
+            <p><strong className="text-foreground">SpectrumAI is a Strategic Visualization and Orchestration Platform</strong> designed to resolve this complexity crisis. It provides a human-centric interface to design, visualize, and steer complex agentic workflows, acting as the &quot;map and compass&quot; for the Agentic Age. It makes the strategic intent behind AI operations explicit, manageable, and adaptable.</p>
           </div>
         </section>
 
         {/* The Coming Storm */}
         <section>
-          <h2 className="text-3xl font-bold mb-4 border-b pb-2">The Coming Storm: Navigating the Agentic Age's Complexity Crisis</h2>
+          <h2 className="text-3xl font-bold mb-4 border-b pb-2">The Coming Storm: Navigating the Agentic Age&apos;s Complexity Crisis</h2>
           <div className="space-y-4 text-muted-foreground">
             <p>The rapid proliferation of artificial intelligence has created a severe and growing challenge: a crisis of complexity. As organizations deploy fleets of interacting agents, they face a multi-faceted crisis that existing tools are ill-equipped to handle.</p>
             <h3 className="text-2xl font-semibold text-foreground pt-4">Contextual Overload & Process Obfuscation</h3>
-            <p>The decentralized and partially observable nature of these systems creates critical "observability gaps," making it nearly impossible for human operators to understand why a system made a particular decision or where a workflow failed.</p>
+            <p>The decentralized and partially observable nature of these systems creates critical &quot;observability gaps,&quot; making it nearly impossible for human operators to understand why a system made a particular decision or where a workflow failed.</p>
             <h3 className="text-2xl font-semibold text-foreground pt-4">Coordination & Communication Overhead</h3>
             <p>As the number of agents in a system increases, the complexity of their communication pathways grows at an alarming rate, leading to significant overhead and the potential for system deadlocks and duplicated efforts.</p>
             <h3 className="text-2xl font-semibold text-foreground pt-4">Strategic Drift</h3>
@@ -52,7 +52,7 @@ export default function PitchPage() {
                 </Card>
                 <Card>
                     <CardHeader><CardTitle>Dynamic Observability</CardTitle></CardHeader>
-                    <CardContent>Real-time monitoring of agent performance, progress, and costs, with "human-in-the-loop" checkpoints for essential governance.</CardContent>
+                    <CardContent>Real-time monitoring of agent performance, progress, and costs, with &quot;human-in-the-loop&quot; checkpoints for essential governance.</CardContent>
                 </Card>
              </div>
           </div>
@@ -101,7 +101,7 @@ export default function PitchPage() {
           <div className="space-y-6">
             <Card>
               <CardHeader><Badge>Political</Badge></CardHeader>
-              <CardContent>US policy favors deregulation and AI infrastructure investment, creating a favorable environment. Spectrum's governance features turn global regulatory fragmentation into an opportunity.</CardContent>
+              <CardContent>US policy favors deregulation and AI infrastructure investment, creating a favorable environment. Spectrum&apos;s governance features turn global regulatory fragmentation into an opportunity.</CardContent>
             </Card>
             <Card>
               <CardHeader><Badge>Economic</Badge></CardHeader>
@@ -109,7 +109,7 @@ export default function PitchPage() {
             </Card>
             <Card>
               <CardHeader><Badge>Social</Badge></CardHeader>
-              <CardContent>Widespread enterprise adoption creates market pull, but the "Agent Ops" talent shortage is a major bottleneck. Spectrum addresses this skills gap directly.</CardContent>
+              <CardContent>Widespread enterprise adoption creates market pull, but the &quot;Agent Ops&quot; talent shortage is a major bottleneck. Spectrum addresses this skills gap directly.</CardContent>
             </Card>
             <Card>
               <CardHeader><Badge>Technological</Badge></CardHeader>
@@ -117,11 +117,11 @@ export default function PitchPage() {
             </Card>
             <Card>
               <CardHeader><Badge>Legal</Badge></CardHeader>
-              <CardContent>Evolving laws around data privacy and AI liability make Spectrum's audit and traceability features a critical tool for compliance.</CardContent>
+              <CardContent>Evolving laws around data privacy and AI liability make Spectrum&apos;s audit and traceability features a critical tool for compliance.</CardContent>
             </Card>
             <Card>
               <CardHeader><Badge>Environmental</Badge></CardHeader>
-              <CardContent>The unsustainable energy consumption of AI data centers is a critical global issue. Spectrum's ability to optimize workflows positions it as a "Green AI" enabler.</CardContent>
+              <CardContent>The unsustainable energy consumption of AI data centers is a critical global issue. Spectrum&apos;s ability to optimize workflows positions it as a &quot;Green AI&quot; enabler.</CardContent>
             </Card>
           </div>
         </section>
@@ -129,7 +129,7 @@ export default function PitchPage() {
         {/* Call to Action */}
         <section className="text-center pt-8">
             <h2 className="text-3xl font-bold mb-4">The Roadmap Ahead & Call to Action</h2>
-             <p className="mt-8 text-xl font-bold">The future is not about replacing human ingenuity, but about amplifying it. Let's build that future together.</p>
+             <p className="mt-8 text-xl font-bold">The future is not about replacing human ingenuity, but about amplifying it. Let&apos;s build that future together.</p>
         </section>
       </main>
     </div>

@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { Timeline } from "~/components/ui/timeline";
-import { TextGenerateEffect } from "~/components/ui/text-generate-effect";
 import { BackgroundBeams } from "~/components/ui/background-beams";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/hooks/use-toast";
