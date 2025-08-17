@@ -134,7 +134,7 @@ export default function CareerEventsPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-bold">Career Events</h1>
-          <p className="text-muted-foreground mt-1">Manage your professional timeline</p>
+          <p className="text-muted-foreground mt-1 text-justify">Manage your professional timeline</p>
         </div>
         <Button onClick={() => setShowForm(!showForm)} variant={showForm ? "outline" : "default"}>
           <Plus className="w-4 h-4 mr-2" />
@@ -225,7 +225,7 @@ export default function CareerEventsPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-3">{event.description}</p>
+                    <p className="text-muted-foreground mb-3 text-justify">{event.description}</p>
                     <p className="text-sm text-muted-foreground">
                       {new Date(event.startDate).toLocaleDateString()} - {event.endDate ? new Date(event.endDate).toLocaleDateString() : "Present"}
                     </p>

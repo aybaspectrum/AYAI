@@ -160,7 +160,20 @@ export default function Home() {
 
   return (
     <main>
-      <HeroParallax products={products} />
+      <HeroParallax
+        products={products}
+        title={
+          <>
+            Welcome to <br /> SpectrumAI
+          </>
+        }
+        subtitle={
+          <>
+            Build your professional timeline and create stunning portfolios with
+            the power of AI.
+          </>
+        }
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <SessionInfo />
 
