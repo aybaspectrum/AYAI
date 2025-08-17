@@ -4,6 +4,5 @@ import '@testing-library/jest-dom/vitest';
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   cleanup();
 });

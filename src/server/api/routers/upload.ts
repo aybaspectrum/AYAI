@@ -85,15 +85,12 @@ export const uploadRouter = createTRPCRouter({
       const fileContent = await response.text();
 
       // Parse CSV content
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      const parsedData = Papa.parse(fileContent, {
+      const parsedData = Papa.parse<Record<string, unknown>>(fileContent, {
         header: true,
         skipEmptyLines: true,
-      }) as Papa.ParseResult<Record<string, unknown>>;
+      });
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (parsedData.errors.length > 0) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         console.error("CSV Parsing Errors:", parsedData.errors);
         throw new Error("Failed to parse CSV file.");
       }
@@ -101,7 +98,6 @@ export const uploadRouter = createTRPCRouter({
       let importedCount = 0;
       const validCareerEventTypes = Object.values(CareerEventType);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       for (const row of parsedData.data) {
         // Type guard to ensure row has required properties
         if (!isCsvRow(row)) {
