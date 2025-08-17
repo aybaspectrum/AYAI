@@ -14,7 +14,7 @@ export default function PitchPage() {
         {/* Executive Summary */}
         <section>
           <h2 className="text-3xl font-bold mb-4 border-b pb-2">Executive Summary</h2>
-          <div className="space-y-4 text-muted-foreground">
+
             <p>We stand at the dawn of the &quot;Agentic Age,&quot; an era where autonomous AI agents promise to revolutionize every industry. However, this proliferation is creating an unprecedented &quot;Complexity Crisis.&quot; Managing fleets of opaque, interacting agents is becoming operationally untenable and strategically impossible for human leaders. This crisis is defined by contextual overload, process obfuscation, and strategic drift, threatening to undermine the very productivity gains AI promises.</p>
             <p>The current market is bifurcated, leaving a critical need unmet. On one end, low-level, code-intensive developer frameworks like LangChain and Autogen offer power but no strategic visibility. On the other, high-level business applications embed AI but offer no control or custom orchestration. There is a critical, unserved gap for a platform that empowers human strategists to define the what and the why, leaving the how to the machines.</p>
             <p><strong className="text-foreground">SpectrumAI is a Strategic Visualization and Orchestration Platform</strong> designed to resolve this complexity crisis. It provides a human-centric interface to design, visualize, and steer complex agentic workflows, acting as the &quot;map and compass&quot; for the Agentic Age. It makes the strategic intent behind AI operations explicit, manageable, and adaptable.</p>
@@ -24,7 +24,7 @@ export default function PitchPage() {
         {/* The Coming Storm */}
         <section>
           <h2 className="text-3xl font-bold mb-4 border-b pb-2">The Coming Storm: Navigating the Agentic Age&apos;s Complexity Crisis</h2>
-          <div className="space-y-4 text-muted-foreground">
+            
             <p>The rapid proliferation of artificial intelligence has created a severe and growing challenge: a crisis of complexity. As organizations deploy fleets of interacting agents, they face a multi-faceted crisis that existing tools are ill-equipped to handle.</p>
             <h3 className="text-2xl font-semibold text-foreground pt-4">Contextual Overload & Process Obfuscation</h3>
             <p>The decentralized and partially observable nature of these systems creates critical &quot;observability gaps,&quot; making it nearly impossible for human operators to understand why a system made a particular decision or where a workflow failed.</p>
@@ -38,7 +38,7 @@ export default function PitchPage() {
         {/* The Spectrum Solution */}
         <section>
           <h2 className="text-3xl font-bold mb-4 border-b pb-2">The Spectrum Solution: Human-Centric Clarity and Control</h2>
-           <div className="space-y-4 text-muted-foreground">
+           <div className="space-y-4 text-muted-foreground text-justify">
             <p>SpectrumAI is an essential navigation system for the Agentic Age. It is engineered to abstract away the dizzying complexity of agentic execution, providing human leaders with a clear, intuitive, and powerful platform for strategic command and control.</p>
              <h3 className="text-2xl font-semibold text-foreground pt-4">Core Pillars of the SpectrumAI Platform</h3>
              <div className="grid md:grid-cols-3 gap-6 pt-4">
