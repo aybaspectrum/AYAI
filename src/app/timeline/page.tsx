@@ -3,22 +3,17 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { Timeline } from "~/components/ui/timeline";
+import { Timeline3D } from "~/components/ui/timeline-3d";
 import { BackgroundBeams } from "~/components/ui/background-beams";
 import { Button } from "~/components/ui/button";
-import { useToast } from "~/hooks/use-toast";
-import { CareerEventType } from "@prisma/client";
-import { Trash2, Loader2, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
 
 export default function TimelinePage() {
   const { data: session } = useSession();
-  const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery(undefined, {
+  const { data: careerEvents } = api.careerEvent.getAll.useQuery(undefined, {
     enabled: !!session,
   });
-  const deleteCareerEventMutation = api.careerEvent.delete.useMutation();
-  const { toast } = useToast();
 
   if (!session) {
     return (
@@ -38,65 +33,17 @@ export default function TimelinePage() {
     );
   }
 
-  const handleDelete = async (eventId: string, eventTitle: string) => {
-    if (!confirm(`Are you sure you want to delete "${eventTitle}"?`)) return;
-    try {
-      await deleteCareerEventMutation.mutateAsync({ id: eventId });
-      await refetch();
-      toast({ title: "Success!", description: "Career event deleted." });
-    } catch (error) {
-      console.error("Error deleting career event:", error);
-      toast({ title: "Error", description: "Failed to delete event.", variant: "destructive" });
-    }
-  };
-
-  const getBadgeVariant = (type: CareerEventType) => {
-    switch (type) {
-      case CareerEventType.JOB: return "default";
-      case CareerEventType.PROJECT: return "secondary";
-      case CareerEventType.EDUCATION: return "outline";
-      default: return "secondary";
-    }
-  };
-
-  const timelineData = careerEvents?.map((event) => ({
-    title: new Date(event.startDate).getFullYear().toString(),
-    content: (
-      <Card>
-        <CardHeader className="flex flex-row justify-between items-start">
-          <div>
-            <CardTitle>{event.title}</CardTitle>
-            <CardDescription>{event.organization}</CardDescription>
-          </div>
-          <div className="flex items-center gap-2">
-            <Badge variant={getBadgeVariant(event.type)}>{event.type}</Badge>
-            <Button variant="ghost" size="icon" onClick={() => handleDelete(event.id, event.title)} disabled={deleteCareerEventMutation.isPending}>
-              {deleteCareerEventMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4 text-destructive" />}
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground mb-3 text-justify">{event.description}</p>
-          <p className="text-sm text-muted-foreground">
-            {new Date(event.startDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {" "}
-            {event.endDate ? new Date(event.endDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "Present"}
-          </p>
-        </CardContent>
-      </Card>
-    ),
-  })) ?? [];
-
   return (
     <div className="relative min-h-screen">
       <BackgroundBeams />
       <div className="container relative z-10 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold">Professional Timeline</h1>
-          <p className="text-muted-foreground mt-2 text-justify">Your career journey visualized</p>
+          <h1 className="text-4xl font-bold">3D Professional Timeline</h1>
+          <p className="text-muted-foreground mt-2">An interactive visualization of your career journey.</p>
         </div>
 
-        {timelineData.length > 0 ? (
-          <Timeline data={timelineData} />
+        {careerEvents && careerEvents.length > 0 ? (
+          <Timeline3D events={careerEvents} />
         ) : (
           <Card className="max-w-2xl mx-auto text-center">
             <CardHeader>

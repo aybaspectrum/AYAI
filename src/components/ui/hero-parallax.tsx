@@ -112,13 +112,23 @@ export const Header = ({
   subtitle: React.ReactNode;
 }) => {
   return (
-    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
-      <h1 className="text-2xl md:text-7xl font-bold bg-gradient-to-r from-primary via-purple-400 to-pink-500 bg-clip-text text-transparent">
+    <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
+      <motion.h1
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="text-4xl md:text-8xl font-bold bg-gradient-to-r from-primary via-purple-400 to-pink-500 bg-clip-text text-transparent"
+      >
         {title}
-      </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-8 text-muted-foreground">
+      </motion.h1>
+      <motion.p
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
+        className="max-w-3xl text-lg md:text-2xl mt-8 text-muted-foreground"
+      >
         {subtitle}
-      </p>
+      </motion.p>
     </div>
   );
 };
@@ -141,6 +151,8 @@ export const ProductCard = ({
       }}
       whileHover={{
         y: -20,
+        rotate: "-5deg",
+        boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
       key={product.title}
       className="group/product h-96 w-[30rem] relative shrink-0"
@@ -159,8 +171,8 @@ export const ProductCard = ({
           alt={product.title}
         />
       </a>
-      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-black pointer-events-none"></div>
-      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white">
+      <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+      <h2 className="absolute bottom-4 left-4 opacity-0 group-hover/product:opacity-100 text-white font-bold text-xl">
         {product.title}
       </h2>
     </motion.div>

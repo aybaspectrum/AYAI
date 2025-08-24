@@ -25,24 +25,24 @@ import { HeroParallax } from "~/components/ui/hero-parallax";
 
 const products = [
   {
-    title: "Moonbeam",
-    link: "https://gomoonbeam.com/",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+    title: "Portfolio",
+    link: "https://spectrumv.space/",
+    thumbnail: "https://image.thum.io/get/width/600/crop/400/https://spectrumv.space/",
   },
   {
-    title: "Cursor",
-    link: "https://cursor.so/",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    title: "LinkedIn",
+    link: "https://www.linkedin.com/in/qaziwahid/",
+    thumbnail: "https://image.thum.io/get/width/600/crop/400/https://www.linkedin.com/in/qaziwahid/",
   },
   {
-    title: "Rogue",
-    link: "https://userogue.com/",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+    title: "GitHub",
+    link: "https://github.com/kazwahid",
+    thumbnail: "https://image.thum.io/get/width/600/crop/400/https://github.com/kazwahid",
   },
   {
-    title: "Editorially",
-    link: "https://editorially.org/",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+    title: "Blog",
+    link: "https://blog.spectrumv.space/",
+    thumbnail: "https://image.thum.io/get/width/600/crop/400/https://blog.spectrumv.space/",
   },
   {
     title: "Editrix AI",
