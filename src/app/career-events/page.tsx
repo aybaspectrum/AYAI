@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~
 import { useToast } from "~/hooks/use-toast";
 import { Loader2, Plus, Calendar, Building, User, FileText, Trash2, Briefcase, GraduationCap, Star } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
+// import { Badge } from "~/components/ui/badge";
 import { CareerEventCard } from "~/components/ui/career-event-card";
 
 export default function CareerEventsPage() {

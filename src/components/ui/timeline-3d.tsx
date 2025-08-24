@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Text } from "@react-three/drei";
-import * as THREE from "three";
+import type * as THREE from "three";
 import { type CareerEvent } from "@prisma/client";
 
 interface Timeline3DProps {
@@ -43,6 +43,7 @@ const EventNode = ({ event, position }: { event: CareerEvent, position: [number,
 };
 
 export const Timeline3D = ({ events }: Timeline3DProps) => {
+
   if (events.length === 0) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -52,7 +53,10 @@ export const Timeline3D = ({ events }: Timeline3DProps) => {
   }
 
   const sortedEvents = [...events].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-  const timeSpan = new Date(sortedEvents[sortedEvents.length - 1].startDate).getTime() - new Date(sortedEvents[0].startDate).getTime();
+    // Use optional chaining and fallback values to avoid undefined errors
+    const firstEventDate = new Date(sortedEvents[0]?.startDate ?? 0).getTime();
+    const lastEventDate = new Date(sortedEvents[sortedEvents.length - 1]?.startDate ?? 0).getTime();
+    const timeSpan = sortedEvents.length > 1 ? lastEventDate - firstEventDate : 1;
 
   return (
     <div className="h-[70vh] w-full">
@@ -65,8 +69,7 @@ export const Timeline3D = ({ events }: Timeline3DProps) => {
 
         {sortedEvents.map((event, index) => {
           const eventDate = new Date(event.startDate).getTime();
-          const firstDate = new Date(sortedEvents[0].startDate).getTime();
-          const progress = (eventDate - firstDate) / timeSpan;
+            const progress = (eventDate - firstEventDate) / timeSpan;
           const x = (index % 5 - 2) * 4;
           const z = -progress * 20;
           const y = Math.sin(progress * Math.PI * 2) * 2;
