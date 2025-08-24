@@ -63,22 +63,18 @@ export const careerEventRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      // First check if the career event exists and belongs to the user
-      const careerEvent = await ctx.db.careerEvent.findFirst({
+      const deleteResult = await ctx.db.careerEvent.deleteMany({
         where: {
           id: input.id,
           userId: ctx.session.user.id,
         },
       });
 
-      if (!careerEvent) {
-        throw new Error("Career event not found or you don't have permission to delete it");
+      if (deleteResult.count === 0) {
+        throw new Error(
+          "Career event not found or you don't have permission to delete it"
+        );
       }
-
-      // Delete the career event
-      await ctx.db.careerEvent.delete({
-        where: { id: input.id },
-      });
 
       return { success: true, deletedId: input.id };
     }),

@@ -115,7 +115,7 @@ export const uploadRouter = createTRPCRouter({
         const endDate = parseDate(row.endDate ?? ""); // Use nullish coalescing
 
         // Validate required fields before creating the object
-        if (!row.title || !row.organization || !row.description || !startDate) {
+        if (!row.title || !row.organization || !startDate) {
           console.warn("Skipping row due to missing required fields:", row);
           continue;
         }
@@ -125,7 +125,7 @@ export const uploadRouter = createTRPCRouter({
           type: type as CareerEventType,
           title: row.title,
           organization: row.organization,
-          description: row.description,
+          description: row.description ?? "",
           startDate: startDate,
           endDate: endDate ?? undefined,
           userId: ctx.session.user.id,

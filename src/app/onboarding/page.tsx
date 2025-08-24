@@ -19,17 +19,18 @@ export default function OnboardingPage() {
   );
 
   useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [status, router]);
+
+  useEffect(() => {
     if (onboardingData && !onboardingData.needsOnboarding) {
       router.push('/');
     }
   }, [onboardingData, router]);
 
   if (status === 'loading' || isLoading) {
-    return <LoadingScreen isLoading={true} onComplete={() => { /* intentionally empty */ }} />;
-  }
-
-  if (status === 'unauthenticated') {
-    router.push('/');
     return <LoadingScreen isLoading={true} onComplete={() => { /* intentionally empty */ }} />;
   }
 
