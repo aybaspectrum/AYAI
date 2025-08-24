@@ -18,7 +18,6 @@ export default function PitchPage() {
             <p>We stand at the dawn of the &quot;Agentic Age,&quot; an era where autonomous AI agents promise to revolutionize every industry. However, this proliferation is creating an unprecedented &quot;Complexity Crisis.&quot; Managing fleets of opaque, interacting agents is becoming operationally untenable and strategically impossible for human leaders. This crisis is defined by contextual overload, process obfuscation, and strategic drift, threatening to undermine the very productivity gains AI promises.</p>
             <p>The current market is bifurcated, leaving a critical need unmet. On one end, low-level, code-intensive developer frameworks like LangChain and Autogen offer power but no strategic visibility. On the other, high-level business applications embed AI but offer no control or custom orchestration. There is a critical, unserved gap for a platform that empowers human strategists to define the what and the why, leaving the how to the machines.</p>
             <p><strong className="text-foreground">SpectrumAI is a Strategic Visualization and Orchestration Platform</strong> designed to resolve this complexity crisis. It provides a human-centric interface to design, visualize, and steer complex agentic workflows, acting as the &quot;map and compass&quot; for the Agentic Age. It makes the strategic intent behind AI operations explicit, manageable, and adaptable.</p>
-          </div>
         </section>
 
         {/* The Coming Storm */}
@@ -32,7 +31,6 @@ export default function PitchPage() {
             <p>As the number of agents in a system increases, the complexity of their communication pathways grows at an alarming rate, leading to significant overhead and the potential for system deadlocks and duplicated efforts.</p>
             <h3 className="text-2xl font-semibold text-foreground pt-4">Strategic Drift</h3>
             <p>When the low-level operations of AI agent fleets become opaque, they can become decoupled from the high-level business objectives they were designed to serve, leading to wasted resources and mission failure.</p>
-          </div>
         </section>
 
         {/* The Spectrum Solution */}
