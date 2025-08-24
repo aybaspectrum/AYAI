@@ -1,13 +1,18 @@
 "use client";
-
+import dynamic from 'next/dynamic';
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { Timeline3D } from "~/components/ui/timeline-3d";
 import { BackgroundBeams } from "~/components/ui/background-beams";
 import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Skeleton } from "~/components/ui/skeleton";
+
+const Timeline3D = dynamic(() => import('~/components/ui/timeline-3d').then(mod => mod.Timeline3D), {
+  loading: () => <Skeleton className="h-[500px] w-full" />,
+  ssr: false
+});
 
 export default function TimelinePage() {
   const { data: session } = useSession();

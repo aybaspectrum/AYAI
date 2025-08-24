@@ -1,3 +1,4 @@
+import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
@@ -26,18 +27,24 @@ export const userRouter = createTRPCRouter({
   }),
 
   // Mark onboarding as completed
-  completeOnboarding: protectedProcedure.mutation(async ({ ctx }) => {
-    const updatedUser = await ctx.db.user.update({
-      where: { id: ctx.session.user.id },
-      data: { onboardingCompleted: true },
-      select: {
-        id: true,
-        onboardingCompleted: true,
-      },
-    });
+  completeOnboarding: protectedProcedure
+    .input(z.object({ consentGranted: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const updatedUser = await ctx.db.user.update({
+        where: { id: ctx.session.user.id },
+        data: {
+          onboardingCompleted: true,
+          consentGranted: input.consentGranted,
+        },
+        select: {
+          id: true,
+          onboardingCompleted: true,
+          consentGranted: true,
+        },
+      });
 
-    return updatedUser;
-  }),
+      return updatedUser;
+    }),
 
   // Check if user needs onboarding
   needsOnboarding: protectedProcedure.query(async ({ ctx }) => {

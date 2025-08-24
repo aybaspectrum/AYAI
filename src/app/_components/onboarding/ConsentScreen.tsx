@@ -22,12 +22,11 @@ export function ConsentScreen() {
   });
 
   const handleConsent = () => {
-    // In a real scenario, you might pass some data here
-    completeOnboarding.mutate();
+    completeOnboarding.mutate({ consentGranted: true });
   };
 
   const handleSkip = () => {
-    completeOnboarding.mutate();
+    completeOnboarding.mutate({ consentGranted: false });
   };
 
   return (
