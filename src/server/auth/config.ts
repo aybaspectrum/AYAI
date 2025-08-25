@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import { type DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 import { db } from "~/server/db";
@@ -40,7 +40,7 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({ session, user }) => ({
+  session: ({ session, user }: { session: DefaultSession; user: { id: string } & DefaultSession["user"] }) => ({
       ...session,
       user: {
         ...session.user,
@@ -48,4 +48,4 @@ export const authConfig = {
       },
     }),
   },
-} satisfies NextAuthConfig;
+};
