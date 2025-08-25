@@ -28,21 +28,10 @@ import { db } from "../db";
  * @see https://trpc.io/docs/server/context
  */
 
-type SessionUser = {
-  id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-};
 
-type Context = {
-  db: typeof db;
-  session: (Session & { user: SessionUser }) | null;
-  headers: Headers;
-};
 
-export const createTRPCContext = async (opts: { headers: Headers }): Promise<Context> => {
-  const session = (await getServerSession(authConfig)) as (Session & { user: SessionUser }) | null;
+export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const session = await getServerSession(authConfig);
   return {
     db,
     session,
