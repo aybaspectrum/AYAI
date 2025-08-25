@@ -41,13 +41,9 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({
-      session,
-      user,
-    }: {
-      session: DefaultSession;
-      user: { id: string } & DefaultSession["user"];
-    }) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    session: ({ session, user }: { session: DefaultSession; user: { id: string } & DefaultSession["user"] }) => ({
       ...session,
       user: {
         ...session.user,
@@ -57,5 +53,6 @@ export const authConfig = {
   },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const handler = NextAuth(authConfig);
 export { handler as GET, handler as POST };
