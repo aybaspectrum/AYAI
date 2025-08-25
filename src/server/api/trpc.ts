@@ -11,7 +11,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { auth } from "../auth";
+import { getServerSession, type Session } from "next-auth";
+import { authConfig } from "../auth/config";
 import { db } from "../db";
 
 /**
@@ -26,9 +27,22 @@ import { db } from "../db";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = await auth();
 
+type SessionUser = {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+};
+
+type Context = {
+  db: typeof db;
+  session: (Session & { user: SessionUser }) | null;
+  headers: Headers;
+};
+
+export const createTRPCContext = async (opts: { headers: Headers }): Promise<Context> => {
+  const session = (await getServerSession(authConfig)) as (Session & { user: SessionUser }) | null;
   return {
     db,
     session,
@@ -96,7 +110,7 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   const result = await next();
 
   const end = Date.now();
-  console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
+  // console.log(`[TRPC] ${path} took ${end - start}ms to execute`); // Disabled for cleaner logs
 
   return result;
 });

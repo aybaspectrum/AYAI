@@ -21,10 +21,11 @@ export function Header() {
   const isLoading = status === "loading";
 
   const navLinks = [
-    { href: "/vision", label: "Vision" },
-    { href: "/career-events", label: "Career Events" },
-    { href: "/timeline", label: "Timeline" },
-    { href: "/upload", label: "Upload" },
+  { href: "/vision", label: "Vision" },
+  { href: "/career-events", label: "Career Events" },
+  { href: "/timeline", label: "Timeline" },
+  { href: "/upload", label: "Upload" },
+  { href: "/instafolio", label: "Insta Folio" }
   ];
 
   return (
