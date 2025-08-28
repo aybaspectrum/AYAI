@@ -15,8 +15,8 @@ export default function InstafolioPage() {
       try {
         const res = await fetch("/api/instafolio/data");
         if (!res.ok) throw new Error("Failed to fetch");
-        const json: DataType = await res.json();
-        setData(json);
+  const json = (await res.json()) as DataType;
+  setData(json);
       } catch {
         // Optionally handle error, e.g. set error state
         setData(null);
