@@ -1,7 +1,5 @@
-// @ts-ignore
-const formidable = require("formidable");
+import formidable, { Fields, Files, IncomingForm } from "formidable";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { Fields, Files } from "formidable";
 import fs from "fs";
 import path from "path";
 
@@ -12,7 +10,10 @@ export const config = {
   },
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
   if (req.method !== "POST") {
     res.status(405).end();
     return;
@@ -24,15 +25,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     fs.mkdirSync(uploadDir);
   }
 
-  const form = new formidable.IncomingForm({
+  const form = new IncomingForm({
     uploadDir,
     keepExtensions: true,
     maxFileSize: 10 * 1024 * 1024, // 10MB limit
   });
 
   await new Promise<void>((resolve) => {
-    form.parse(req, (err: any, fields: Fields, files: Files) => {
+    form.parse(req, (err: Error | null, fields: Fields, files: Files) => {
       if (err) {
+        // eslint-disable-next-line no-console
         console.error("Formidable error:", err);
         res.status(500).json({ error: "File upload error", details: err });
         resolve();
