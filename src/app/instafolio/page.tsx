@@ -1,10 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+// Replace 'any' with a specific type or 'unknown' and narrow it
+type DataType = {
+  // define your data structure here
+};
 
 export default function InstafolioPage() {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<DataType | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -30,7 +35,7 @@ export default function InstafolioPage() {
         const error = await res.text();
         setResult({ error });
       } else {
-        const data = await res.json();
+        const data: DataType = await res.json();
         setResult(data);
       }
     } catch (err) {
@@ -38,6 +43,21 @@ export default function InstafolioPage() {
     }
     setUploading(false);
   };
+
+  useEffect(() => {
+    // Example async fetch with proper error handling
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/instafolio/data");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const json: DataType = await res.json();
+        setResult(json);
+      } catch (error) {
+        // handle error
+      }
+    };
+    void fetchData(); // Mark as intentionally unawaited
+  }, []);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen py-8">

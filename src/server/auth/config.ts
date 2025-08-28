@@ -41,8 +41,6 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     session: ({ session, user }: { session: DefaultSession; user: { id: string } & DefaultSession["user"] }) => ({
       ...session,
       user: {

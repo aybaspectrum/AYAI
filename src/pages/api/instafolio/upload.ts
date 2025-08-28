@@ -1,4 +1,4 @@
-import formidable, { IncomingForm } from "formidable";
+import { IncomingForm } from "formidable";
 import type { Fields, Files } from "formidable";
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
@@ -35,16 +35,11 @@ export default async function handler(
   await new Promise<void>((resolve) => {
     form.parse(req, (err: Error | null, fields: Fields, files: Files) => {
       if (err) {
-        // eslint-disable-next-line no-console
         console.error("Formidable error:", err);
         res.status(500).json({ error: "File upload error", details: err });
         resolve();
         return;
       }
-
-      // Here you can save file info to your DB if needed
-
-      // For now, just return file info
       res.status(200).json({ fields, files });
       resolve();
     });
