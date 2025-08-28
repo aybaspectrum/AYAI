@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Briefcase, GraduationCap, Star } from "lucide-react";
 import { type CareerEvent, CareerEventType } from "@prisma/client";
@@ -12,12 +18,12 @@ interface CareerEventCardProps {
 const getIcon = (type: CareerEventType) => {
   switch (type) {
     case CareerEventType.JOB:
-      return <Briefcase className="w-6 h-6 text-primary" />;
+      return <Briefcase className="text-primary h-6 w-6" />;
     case CareerEventType.EDUCATION:
-      return <GraduationCap className="w-6 h-6 text-primary" />;
+      return <GraduationCap className="text-primary h-6 w-6" />;
     case CareerEventType.PROJECT:
     case CareerEventType.ACCOMPLISHMENT:
-      return <Star className="w-6 h-6 text-primary" />;
+      return <Star className="text-primary h-6 w-6" />;
     default:
       return null;
   }
@@ -29,15 +35,16 @@ export const CareerEventCard = ({ event }: CareerEventCardProps) => {
       whileHover={{
         y: -5,
         scale: 1.02,
-        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+        boxShadow:
+          "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
       }}
       className="h-full"
     >
-      <Card className="h-full bg-card/50 backdrop-blur-sm border border-border/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <Card className="bg-card/50 border-border/20 h-full border shadow-lg backdrop-blur-sm transition-shadow duration-300 hover:shadow-xl">
         <CardHeader>
-          <div className="flex justify-between items-start">
+          <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-xl">
+              <div className="bg-primary/10 rounded-xl p-3">
                 {getIcon(event.type)}
               </div>
               <div>
@@ -51,8 +58,10 @@ export const CareerEventCard = ({ event }: CareerEventCardProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground text-sm mb-4 text-justify">{event.description}</p>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-muted-foreground mb-4 text-justify text-sm">
+            {event.description}
+          </p>
+          <p className="text-muted-foreground text-xs">
             {new Date(event.startDate).toLocaleDateString("en-US", {
               month: "short",
               year: "numeric",

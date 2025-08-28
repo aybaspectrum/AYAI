@@ -24,12 +24,12 @@ export default function SignInButton() {
       whileTap={{ scale: 0.98 }}
       onClick={handleSignIn}
       disabled={isLoading}
-      className="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-200 rounded-xl px-6 py-4 text-gray-700 font-medium hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+      className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-gray-200 bg-white px-6 py-4 font-medium text-gray-700 shadow-lg transition-all duration-200 hover:border-gray-300 hover:bg-gray-50 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
     >
       {isLoading ? (
-        <Loader2 className="w-5 h-5 animate-spin" />
+        <Loader2 className="h-5 w-5 animate-spin" />
       ) : (
-        <svg className="w-5 h-5" viewBox="0 0 24 24">
+        <svg className="h-5 w-5" viewBox="0 0 24 24">
           <path
             fill="#4285F4"
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

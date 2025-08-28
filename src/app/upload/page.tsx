@@ -9,7 +9,13 @@ import { Label } from "~/components/ui/label";
 import { toast } from "~/hooks/use-toast";
 import { Loader2, Upload } from "lucide-react";
 import { api } from "~/trpc/react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 
 export default function UploadPage() {
   const { data: session } = useSession();
@@ -28,7 +34,11 @@ export default function UploadPage() {
     event.preventDefault();
 
     if (!selectedFile) {
-      toast({ title: "No file selected", description: "Please select a file to upload.", variant: "destructive" });
+      toast({
+        title: "No file selected",
+        description: "Please select a file to upload.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -39,10 +49,15 @@ export default function UploadPage() {
 
     reader.onload = async () => {
       const result = reader.result;
-      const base64Content = typeof result === 'string' ? result.split(",")[1] : undefined;
+      const base64Content =
+        typeof result === "string" ? result.split(",")[1] : undefined;
 
       if (!base64Content) {
-        toast({ title: "Error reading file", description: "Could not read file content.", variant: "destructive" });
+        toast({
+          title: "Error reading file",
+          description: "Could not read file content.",
+          variant: "destructive",
+        });
         setIsLoading(false);
         return;
       }
@@ -53,14 +68,26 @@ export default function UploadPage() {
           fileContent: base64Content,
           fileType: selectedFile.type,
         });
-        toast({ title: "Upload successful!", description: `File uploaded to: ${uploadResult.url}` });
+        toast({
+          title: "Upload successful!",
+          description: `File uploaded to: ${uploadResult.url}`,
+        });
 
-        const processResult = await processFileMutation.mutateAsync({ blobUrl: uploadResult.url });
-        toast({ title: "Processing complete!", description: `Imported ${processResult.importedCount} career events.` });
+        const processResult = await processFileMutation.mutateAsync({
+          blobUrl: uploadResult.url,
+        });
+        toast({
+          title: "Processing complete!",
+          description: `Imported ${processResult.importedCount} career events.`,
+        });
         setSelectedFile(null);
       } catch (error) {
         console.error("Error during file operation:", error);
-        toast({ title: "Operation failed", description: "Failed to upload or process file.", variant: "destructive" });
+        toast({
+          title: "Operation failed",
+          description: "Failed to upload or process file.",
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -68,7 +95,11 @@ export default function UploadPage() {
 
     reader.onerror = (error) => {
       console.error("FileReader error:", error);
-      toast({ title: "File read error", description: "Failed to read the selected file.", variant: "destructive" });
+      toast({
+        title: "File read error",
+        description: "Failed to read the selected file.",
+        variant: "destructive",
+      });
       setIsLoading(false);
     };
   };
@@ -76,10 +107,12 @@ export default function UploadPage() {
   if (!session) {
     return (
       <div className="container py-12 text-center">
-        <Card className="max-w-md mx-auto">
+        <Card className="mx-auto max-w-md">
           <CardHeader>
             <CardTitle>Please Log In</CardTitle>
-            <CardDescription>You need to be logged in to upload files.</CardDescription>
+            <CardDescription>
+              You need to be logged in to upload files.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Link href="/login">
@@ -93,25 +126,41 @@ export default function UploadPage() {
 
   return (
     <div className="container flex flex-col items-center justify-center py-12">
-      <Card className="max-w-lg w-full">
+      <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl">Upload Your Data</CardTitle>
           <CardDescription>
-            Upload a CSV or document to automatically extract your career events.
+            Upload a CSV or document to automatically extract your career
+            events.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="file">Select File</Label>
-              <Input id="file" type="file" accept=".csv,.pdf,.doc,.docx,.txt" onChange={handleFileChange} />
-              {selectedFile && <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>}
+              <Input
+                id="file"
+                type="file"
+                accept=".csv,.pdf,.doc,.docx,.txt"
+                onChange={handleFileChange}
+              />
+              {selectedFile && (
+                <p className="text-muted-foreground text-sm">
+                  Selected: {selectedFile.name}
+                </p>
+              )}
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
-                <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Uploading & Processing...</>
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Uploading & Processing...
+                </>
               ) : (
-                <><Upload className="w-4 h-4 mr-2" />Upload & Process File</>
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload & Process File
+                </>
               )}
             </Button>
           </form>

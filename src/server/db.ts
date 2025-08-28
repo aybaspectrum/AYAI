@@ -16,6 +16,4 @@ export const db = globalForPrisma.prisma ?? createPrismaClient();
 
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = db;
 
-export const links = [
-    { href: "/portfolio-generator", label: "InstaFolio" },
-  ];
+export const links = [{ href: "/portfolio-generator", label: "InstaFolio" }];

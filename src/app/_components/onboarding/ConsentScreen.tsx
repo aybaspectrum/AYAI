@@ -43,8 +43,8 @@ export function ConsentScreen() {
           <p className="text-sm text-gray-600 dark:text-gray-400">
             By granting consent, you allow SpectrumAI to access your public
             profile information, including your work experience, projects, and
-            education history. We will never access your private data or post
-            on your behalf.
+            education history. We will never access your private data or post on
+            your behalf.
           </p>
         </CardContent>
         <CardFooter className="flex justify-end gap-4">

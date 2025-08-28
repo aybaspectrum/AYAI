@@ -41,7 +41,13 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({ session, user }: { session: DefaultSession; user: { id: string } & DefaultSession["user"] }) => ({
+    session: ({
+      session,
+      user,
+    }: {
+      session: DefaultSession;
+      user: { id: string } & DefaultSession["user"];
+    }) => ({
       ...session,
       user: {
         ...session.user,

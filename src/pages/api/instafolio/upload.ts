@@ -13,7 +13,7 @@ export const config = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<void> {
   if (req.method !== "POST") {
     res.status(405).end();

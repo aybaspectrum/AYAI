@@ -24,18 +24,16 @@ export default function LoginPage() {
         <Card>
           <CardHeader className="text-center">
             <div className="mx-auto mb-4">
-              <SpectrumLogo className="w-16 h-16" />
+              <SpectrumLogo className="h-16 w-16" />
             </div>
             <CardTitle className="text-3xl">Welcome Back</CardTitle>
-            <CardDescription>
-              Sign in to continue to SpectrumAI
-            </CardDescription>
+            <CardDescription>Sign in to continue to SpectrumAI</CardDescription>
           </CardHeader>
           <CardContent>
             <SignInButton />
           </CardContent>
           <CardFooter>
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-center text-sm">
               By signing in, you agree to our Terms of Service and Privacy
               Policy
             </p>

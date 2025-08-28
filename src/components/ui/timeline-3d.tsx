@@ -10,7 +10,13 @@ interface Timeline3DProps {
   events: CareerEvent[];
 }
 
-const EventNode = ({ event, position }: { event: CareerEvent, position: [number, number, number] }) => {
+const EventNode = ({
+  event,
+  position,
+}: {
+  event: CareerEvent;
+  position: [number, number, number];
+}) => {
   const mesh = useRef<THREE.Mesh>(null!);
 
   useFrame((state, delta) => {
@@ -23,7 +29,11 @@ const EventNode = ({ event, position }: { event: CareerEvent, position: [number,
     <group position={position}>
       <mesh ref={mesh}>
         <sphereGeometry args={[0.2, 32, 32]} />
-        <meshStandardMaterial color="purple" emissive="purple" emissiveIntensity={2} />
+        <meshStandardMaterial
+          color="purple"
+          emissive="purple"
+          emissiveIntensity={2}
+        />
       </mesh>
       <Text
         position={[0, 0.5, 0]}
@@ -43,20 +53,25 @@ const EventNode = ({ event, position }: { event: CareerEvent, position: [number,
 };
 
 export const Timeline3D = ({ events }: Timeline3DProps) => {
-
   if (events.length === 0) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-muted-foreground">No events to display on the 3D timeline.</p>
+      <div className="flex h-96 items-center justify-center">
+        <p className="text-muted-foreground">
+          No events to display on the 3D timeline.
+        </p>
       </div>
     );
   }
 
-  const sortedEvents = [...events].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-    // Use optional chaining and fallback values to avoid undefined errors
-    const firstEventDate = new Date(sortedEvents[0]?.startDate ?? 0).getTime();
-    const lastEventDate = new Date(sortedEvents[sortedEvents.length - 1]?.startDate ?? 0).getTime();
-    const timeSpan = sortedEvents.length > 1 ? lastEventDate - firstEventDate : 1;
+  const sortedEvents = [...events].sort(
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+  );
+  // Use optional chaining and fallback values to avoid undefined errors
+  const firstEventDate = new Date(sortedEvents[0]?.startDate ?? 0).getTime();
+  const lastEventDate = new Date(
+    sortedEvents[sortedEvents.length - 1]?.startDate ?? 0,
+  ).getTime();
+  const timeSpan = sortedEvents.length > 1 ? lastEventDate - firstEventDate : 1;
 
   return (
     <div className="h-[70vh] w-full">
@@ -65,15 +80,17 @@ export const Timeline3D = ({ events }: Timeline3DProps) => {
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
 
-        <gridHelper args={[50, 50, '#555', '#222']} />
+        <gridHelper args={[50, 50, "#555", "#222"]} />
 
         {sortedEvents.map((event, index) => {
           const eventDate = new Date(event.startDate).getTime();
-            const progress = (eventDate - firstEventDate) / timeSpan;
-          const x = (index % 5 - 2) * 4;
+          const progress = (eventDate - firstEventDate) / timeSpan;
+          const x = ((index % 5) - 2) * 4;
           const z = -progress * 20;
           const y = Math.sin(progress * Math.PI * 2) * 2;
-          return <EventNode key={event.id} event={event} position={[x, y, z]} />;
+          return (
+            <EventNode key={event.id} event={event} position={[x, y, z]} />
+          );
         })}
 
         <OrbitControls

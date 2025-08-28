@@ -1,7 +1,4 @@
-import {
-  createCallerFactory,
-  createTRPCRouter,
-} from "./trpc";
+import { createCallerFactory, createTRPCRouter } from "./trpc";
 import { exampleRouter } from "./routers/example";
 import { userRouter } from "./routers/user";
 import { careerEventRouter } from "./routers/careerEvent";
