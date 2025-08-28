@@ -1,4 +1,5 @@
-import formidable, { Fields, Files, IncomingForm } from "formidable";
+import formidable, { IncomingForm } from "formidable";
+import type { Fields, Files } from "formidable";
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 import path from "path";
