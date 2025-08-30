@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+langextract
+python-multipart
+pdfplumber
+python-docx
