@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { RequireLoginCard } from "~/components/ui/RequireLoginCard";
 import { api } from "~/trpc/react";
 import { BackgroundBeams } from "~/components/ui/background-beams";
 import { Button } from "~/components/ui/button";
@@ -30,29 +31,13 @@ export default function TimelinePage() {
   });
 
   if (!session) {
-    return (
-      <div className="container py-12 text-center">
-        <Card className="mx-auto max-w-md">
-          <CardHeader>
-            <CardTitle>Please Log In</CardTitle>
-            <CardDescription>
-              You need to be logged in to view your timeline.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/login">
-              <Button>Go to Login</Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <RequireLoginCard message="You need to be logged in to view your timeline." />;
   }
 
   return (
     <div className="relative min-h-screen">
       <BackgroundBeams />
-      <div className="relative z-10 container py-8">
+      <div className="relative z-10 container mx-auto flex flex-col items-center justify-center py-12">
         <div className="mb-12 text-center">
           <h1 className="text-4xl font-bold">3D Professional Timeline</h1>
           <p className="text-muted-foreground mt-2">

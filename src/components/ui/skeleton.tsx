@@ -1,6 +1,8 @@
 "use client";
 
+
 import { cn } from "~/lib/utils";
+import "./skeleton.css";
 
 function Skeleton({
   className,
@@ -9,12 +11,9 @@ function Skeleton({
   return (
     <div
       className={cn(
-        "animate-pulse rounded-md bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%]",
+        "animate-pulse shimmer rounded-md bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%]",
         className,
       )}
-      style={{
-        animation: "shimmer 2s infinite",
-      }}
       {...props}
     />
   );

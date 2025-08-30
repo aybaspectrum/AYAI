@@ -16,7 +16,8 @@ import {
   UploadCloud,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { HeroParallax } from "~/components/ui/hero-parallax";
+import dynamic from "next/dynamic";
+const HeroParallax = dynamic(() => import("~/components/ui/hero-parallax").then(mod => mod.HeroParallax), { ssr: false });
 
 const products = [
   {

@@ -1,4 +1,4 @@
-import InstaFolio from "../components/instafolio";
+import InstaFolio from "../app/instafolio/InstaFolio";
 
 export default function InstaFolioPage() {
   return (

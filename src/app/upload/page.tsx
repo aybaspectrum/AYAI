@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { Button } from "~/components/ui/button";
+import { RequireLoginCard } from "~/components/ui/RequireLoginCard";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { toast } from "~/hooks/use-toast";
@@ -105,27 +105,11 @@ export default function UploadPage() {
   };
 
   if (!session) {
-    return (
-      <div className="container py-12 text-center">
-        <Card className="mx-auto max-w-md">
-          <CardHeader>
-            <CardTitle>Please Log In</CardTitle>
-            <CardDescription>
-              You need to be logged in to upload files.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/login">
-              <Button>Go to Login</Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <RequireLoginCard message="You need to be logged in to upload files." />;
   }
 
   return (
-    <div className="container flex flex-col items-center justify-center py-12">
+    <div className="container mx-auto flex flex-col items-center justify-center py-12">
       <Card className="w-full max-w-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl">Upload Your Data</CardTitle>

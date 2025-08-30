@@ -1,5 +1,6 @@
 "use client";
 import { useScroll, useTransform, motion } from "motion/react";
+import "./timeline.css";
 import React, { useEffect, useRef, useState } from "react";
 
 interface TimelineEntry {
@@ -65,11 +66,14 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
             </div>
           </div>
         ))}
+        {/*
+          Dynamic height is required for the timeline progress bar.
+          This inline style cannot be replaced with a CSS class.
+          eslint-disable-next-line react/style-prop-object
+        */}
         <div
-          style={{
-            height: height + "px",
-          }}
-          className="absolute top-0 left-8 w-[2px] overflow-hidden bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] md:left-8 dark:via-neutral-700"
+          style={{ height: height + "px" }}
+          className="absolute top-0 left-8 w-[2px] overflow-hidden timeline-gradient from-transparent from-[0%] via-neutral-200 to-transparent to-[99%] md:left-8 dark:via-neutral-700"
         >
           <motion.div
             style={{
@@ -80,6 +84,17 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           />
         </div>
       </div>
+      {/* Footer with author's portfolio link */}
+      <footer className="w-full border-t border-neutral-200 dark:border-neutral-800 py-6 text-center mt-8">
+        <a
+          href="https://aybaspectrum.github.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-base font-semibold text-blue-700 hover:underline dark:text-blue-400"
+        >
+          Visit the Author&apos;s Portfolio
+        </a>
+      </footer>
     </div>
   );
 };

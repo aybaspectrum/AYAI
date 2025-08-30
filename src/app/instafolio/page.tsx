@@ -85,7 +85,7 @@ export default function InstafolioPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto flex flex-col items-center justify-center py-12">
       <h1 className="text-3xl font-bold mb-4">CV Extractor - InstaFolio</h1>
       <div className="mb-6">
         <div><b>Name:</b> {data.fullName}</div>

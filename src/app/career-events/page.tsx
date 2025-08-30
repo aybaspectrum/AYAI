@@ -194,7 +194,7 @@ export default function CareerEventsPage() {
     ) ?? [];
 
   return (
-    <div className="container py-8">
+    <div className="container mx-auto flex flex-col items-center justify-center py-12">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-3xl font-bold">Career Events</h1>

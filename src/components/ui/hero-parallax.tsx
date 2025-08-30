@@ -163,6 +163,7 @@ export const ProductCard = ({
         className="block group-hover/product:shadow-2xl"
         target="_blank"
         rel="noreferrer"
+        aria-label={product.title}
       >
         <Image
           src={product.thumbnail}

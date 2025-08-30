@@ -7,7 +7,6 @@ import { useSession, signOut } from "next-auth/react";
 import { LogOut, User } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
-import { SpectrumLogo } from "~/components/ui/spectrum-logo";
 import SignInButton from "~/app/login/SignInButton";
 import {
   DropdownMenu,
@@ -29,23 +28,25 @@ export function Header() {
   ];
 
   return (
-    <header className="border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <SpectrumLogo className="h-6 w-6" />
-            <span className="hidden font-bold sm:inline-block">SpectrumAI</span>
+  <header className="border-border/40 bg-[#0e0d0d] sticky top-0 z-50 w-full border-b">
+      <div className="container flex h-32 max-w-screen-2xl items-center"> {/* Match header logo size */}
+        <div className="hidden md:flex w-full items-center">
+          <Link href="/" className="flex items-center pr-12"> {/* Add right padding to logo */}
+            <Image src="/logo2.png" alt="Logo" width={128} height={128} />
+            <span className="hidden font-extrabold text-3xl sm:inline-block ml-4">SpectrumAI</span>
           </Link>
-          <nav className="flex items-center gap-6 text-sm">
+          <nav className="flex-1 flex justify-center items-center gap-10 text-lg"> {/* Center nav links */}
             {session &&
               navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="hover:text-foreground/80 text-foreground/60 transition-colors"
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href} className="flex flex-col items-center">
+                  <span className="h-1 w-8 rounded-t bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 mb-1" />
+                  <Link
+                    href={link.href}
+                    className="hover:text-foreground/80 text-foreground/60 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </div>
               ))}
           </nav>
         </div>
