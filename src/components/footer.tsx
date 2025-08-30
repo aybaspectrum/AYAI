@@ -36,7 +36,7 @@ export function Footer() {
       <footer className="border-border/40 border-t bg-[#0e0d0d]">
         <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-32 md:flex-row md:py-0">
           <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-            <Image src="/logo2.png" alt="Logo" width={128} height={128} className="pr-8" />
+            <Image src="/logo2.PNG" alt="Logo" width={128} height={128} className="pr-8" />
             <span className="hidden font-extrabold text-3xl sm:inline-block ml-4">SpectrumV.io</span>
           </div>
         </div>

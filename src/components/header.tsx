@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { Image } from "~/components/ui/Image";
 import { useSession, signOut } from "next-auth/react";
 import { LogOut, User } from "lucide-react";
 
@@ -32,7 +32,7 @@ export function Header() {
       <div className="container flex h-32 max-w-screen-2xl items-center"> {/* Match header logo size */}
         <div className="hidden md:flex w-full items-center">
           <Link href="/" className="flex items-center pr-12"> {/* Add right padding to logo */}
-            <Image src="/logo2.png" alt="Logo" width={128} height={128} />
+            <Image src="/logo2.PNG" alt="Logo" width={128} height={128} />
             <span className="hidden font-extrabold text-3xl sm:inline-block ml-4">SpectrumAI</span>
           </Link>
           <nav className="flex-1 flex justify-center items-center gap-10 text-lg"> {/* Center nav links */}
