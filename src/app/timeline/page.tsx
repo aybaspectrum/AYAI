@@ -26,7 +26,11 @@ const Timeline3D = dynamic(
 
 export default function TimelinePage() {
   const { data: session } = useSession();
-  const { data: careerEvents } = api.careerEvent.getAll.useQuery(undefined, {
+  const {
+    data: careerEvents,
+    isLoading,
+    error,
+  } = api.careerEvent.getAll.useQuery(undefined, {
     enabled: !!session,
   });
 
@@ -45,7 +49,21 @@ export default function TimelinePage() {
           </p>
         </div>
 
-        {careerEvents && careerEvents.length > 0 ? (
+        {isLoading ? (
+          <Skeleton className="h-[500px] w-full" />
+        ) : error ? (
+          <Card className="mx-auto max-w-2xl text-center">
+            <CardHeader>
+              <CardTitle>Error Loading Timeline</CardTitle>
+              <CardDescription>
+                {error.message || "An error occurred while fetching your timeline."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button onClick={() => window.location.reload()}>Retry</Button>
+            </CardContent>
+          </Card>
+        ) : careerEvents && careerEvents.length > 0 ? (
           <Timeline3D events={careerEvents} />
         ) : (
           <Card className="mx-auto max-w-2xl text-center">

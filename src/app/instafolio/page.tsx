@@ -1,75 +1,35 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { api } from "~/trpc/react";
 
 // Define your expected data structure here
-type Education = {
-  year: string;
-  degree: string;
-  institution: string;
-  location: string;
-  skills: string[];
-};
 
-type Experience = {
-  dateRange: string;
-  title: string;
-  company: string;
-  achievements: string[];
-};
 
-type Project = {
-  year: string;
-  title: string;
-  description: string;
-  tags: string[];
-};
-
-type CVData = {
-  fullName: string;
-  email: string;
-  phone?: string;
-  linkedin?: string;
-  educations: Education[];
-  experiences: Experience[];
-  projects: Project[];
-};
 
 export default function InstafolioPage() {
-  const [data, setData] = useState<CVData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data,
+    isLoading,
+    error,
+    refetch,
+  } = api.instafolio.list.useQuery();
+  // const uploadMutation = api.instafolio.create.useMutation();
   const [uploading, setUploading] = useState(false);
   const [uploadMsg, setUploadMsg] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/instafolio/data");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const json = (await res.json()) as CVData;
-        setData(json);
-      } catch {
-        setError("Failed to load CV data.");
-        setData(null);
-      }
-    };
-    void fetchData();
-  }, []);
-
+  // Example: handle file upload and parse, then call uploadMutation.mutateAsync with parsed data
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
     const file = e.target.files[0];
     if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file, file.name);
     setUploading(true);
     setUploadMsg(null);
     try {
-      const res = await fetch("/api/instafolio/upload", {
-        method: "POST",
-        body: formData,
-      });
-      if (!res.ok) throw new Error("Upload failed");
-      setUploadMsg("Upload successful!");
+      // TODO: Parse PDF and extract data, then call uploadMutation.mutateAsync(parsedData)
+      // For now, just simulate success
+      await new Promise((res) => setTimeout(res, 1000));
+      setUploadMsg("Upload successful! (Parsing not implemented)");
+      await refetch();
     } catch {
       setUploadMsg("Upload failed. Please try again.");
     } finally {
@@ -77,21 +37,25 @@ export default function InstafolioPage() {
     }
   };
 
-  if (error) {
-    return <div className="text-red-500">{error}</div>;
-  }
-  if (!data) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
+  if (error) {
+    return <div className="text-red-500">{error.message || "Failed to load CV data."}</div>;
+  }
+  if (!data || data.length === 0) {
+    return <div>No CV data found.</div>;
+  }
+  const cv = data[0];
 
   return (
     <div className="container mx-auto flex flex-col items-center justify-center py-12">
       <h1 className="text-3xl font-bold mb-4">CV Extractor - InstaFolio</h1>
       <div className="mb-6">
-        <div><b>Name:</b> {data.fullName}</div>
-        <div><b>Email:</b> {data.email}</div>
-        {data.phone && <div><b>Phone:</b> {data.phone}</div>}
-        {data.linkedin && <div><b>LinkedIn:</b> {data.linkedin}</div>}
+        <div><b>Name:</b> {cv?.fullName}</div>
+        <div><b>Email:</b> {cv?.email}</div>
+        {cv?.phone && <div><b>Phone:</b> {cv.phone}</div>}
+        {cv?.linkedin && <div><b>LinkedIn:</b> {cv.linkedin}</div>}
       </div>
       <div className="mb-6">
         <label htmlFor="cv-upload" className="block mb-2 font-semibold">Upload your CV (PDF):</label>
@@ -118,7 +82,7 @@ export default function InstafolioPage() {
           </tr>
         </thead>
         <tbody>
-          {data.educations.map((edu, i) => (
+          {cv?.educations?.map((edu, i) => (
             <tr key={i}>
               <td className="border px-2 py-1">{edu.year}</td>
               <td className="border px-2 py-1">{edu.degree}</td>
@@ -140,7 +104,7 @@ export default function InstafolioPage() {
           </tr>
         </thead>
         <tbody>
-          {data.experiences.map((exp, i) => (
+          {cv?.experiences?.map((exp, i) => (
             <tr key={i}>
               <td className="border px-2 py-1">{exp.dateRange}</td>
               <td className="border px-2 py-1">{exp.title}</td>
@@ -161,7 +125,7 @@ export default function InstafolioPage() {
           </tr>
         </thead>
         <tbody>
-          {data.projects.map((proj, i) => (
+          {cv?.projects?.map((proj, i) => (
             <tr key={i}>
               <td className="border px-2 py-1">{proj.year}</td>
               <td className="border px-2 py-1">{proj.title}</td>

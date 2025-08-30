@@ -9,11 +9,14 @@ import { uploadRouter } from "./routers/upload";
  *
  * All routers added in /api/routers should be manually added here.
  */
+import { instafolioRouter } from "./routers/instafolio";
+
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
   user: userRouter,
   careerEvent: careerEventRouter,
   upload: uploadRouter,
+  instafolio: instafolioRouter,
 });
 
 // export type definition of API

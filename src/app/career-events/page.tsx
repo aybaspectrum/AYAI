@@ -41,7 +41,7 @@ import { CareerEventCard } from "~/components/ui/career-event-card";
 
 export default function CareerEventsPage() {
   const { data: session } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     type: CareerEventType.JOB,
@@ -56,7 +56,12 @@ export default function CareerEventsPage() {
   const { toast } = useToast();
 
   // tRPC queries and mutations
-  const { data: careerEvents, refetch } = api.careerEvent.getAll.useQuery(
+  const {
+    data: careerEvents,
+    refetch,
+  isLoading: isCareerEventsLoading,
+    error,
+  } = api.careerEvent.getAll.useQuery(
     undefined,
     {
       enabled: !!session,
@@ -97,7 +102,7 @@ export default function CareerEventsPage() {
       return;
     }
 
-    setIsLoading(true);
+  setIsFormSubmitting(true);
     setErrors({});
 
     try {
@@ -128,7 +133,7 @@ export default function CareerEventsPage() {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+    setIsFormSubmitting(false);
     }
   };
 
@@ -175,6 +180,41 @@ export default function CareerEventsPage() {
             <Link href="/login">
               <Button>Go to Login</Button>
             </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (isCareerEventsLoading) {
+    return (
+      <div className="container py-12 text-center">
+        <Card className="mx-auto max-w-md">
+          <CardHeader>
+            <CardTitle>Loading Career Events...</CardTitle>
+            <CardDescription>
+              <span className="flex justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </span>
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container py-12 text-center">
+        <Card className="mx-auto max-w-md">
+          <CardHeader>
+            <CardTitle>Error Loading Career Events</CardTitle>
+            <CardDescription>
+              {error.message || "An error occurred while fetching your career events."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => window.location.reload()}>Retry</Button>
           </CardContent>
         </Card>
       </div>
@@ -351,8 +391,8 @@ export default function CareerEventsPage() {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? (
+                <Button type="submit" disabled={isFormSubmitting}>
+                  {isFormSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Saving...
