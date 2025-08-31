@@ -4,11 +4,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import SessionInfo from "./SessionInfo";
 import { api } from "~/trpc/react";
 import { LoadingScreen } from "~/components/ui/loading-screen";
 import { CardSkeleton } from "~/components/ui/skeleton";
 import { motion } from "motion/react";
+import { CompassCursor } from "~/components/ui/CompassCursor";
 import {
   Briefcase,
   BarChart3,
@@ -170,107 +170,88 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <HeroParallax
-        products={products}
-        title={
-          <>
-            Welcome to <br /> SpectrumAI
-          </>
-        }
-        subtitle={
-          <>
-            Build your professional timeline and create stunning portfolios with
-            the power of AI.
-          </>
-        }
-      />
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <SessionInfo />
+    <>
+      <CompassCursor />
+      <main>
+        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+          {session && (
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="mt-4"
+            >
+              <Card className="pt-8">
+                <CardHeader className="text-center">
+                  <CardTitle className="text-3xl">Get Started</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    {/* Career Events Card */}
+                    <Link href="/career-events">
+                      <Card className="hover:border-primary h-64 w-64 mx-auto transition-colors duration-300">
+                        <CardHeader className="items-center text-center p-2">
+                          <div className="bg-primary/10 mb-1 rounded-xl p-2">
+                            <Briefcase className="text-primary h-6 w-6" />
+                          </div>
+                          <CardTitle className="text-base">Career Events</CardTitle>
+                        </CardHeader>
+                        <CardContent className="text-muted-foreground text-xs text-center p-2">
+                          Add and manage your professional experiences, education, and accomplishments.
+                        </CardContent>
+                      </Card>
+                    </Link>
 
-        {session && (
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="mt-12"
-          >
-            <Card className="pt-8">
-              <CardHeader className="text-center">
-                <CardTitle className="text-3xl">Get Started</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                  {/* Career Events Card */}
-                  <Link href="/career-events">
-                    <Card className="hover:border-primary h-full transition-colors duration-300">
-                      <CardHeader className="items-center text-center">
-                        <div className="bg-primary/10 mb-2 rounded-xl p-3">
-                          <Briefcase className="text-primary h-8 w-8" />
-                        </div>
-                        <CardTitle>Career Events</CardTitle>
-                      </CardHeader>
-                      <CardContent className="text-muted-foreground text-center">
-                        Add and manage your professional experiences, education,
-                        and accomplishments.
-                      </CardContent>
-                    </Card>
-                  </Link>
+                    {/* Timeline Visualization Card */}
+                    <Link href="/timeline">
+                      <Card className="hover:border-primary h-64 w-64 mx-auto transition-colors duration-300">
+                        <CardHeader className="items-center text-center p-2">
+                          <div className="bg-primary/10 mb-1 rounded-xl p-2">
+                            <BarChart3 className="text-primary h-6 w-6" />
+                          </div>
+                          <CardTitle className="text-base">Timeline View</CardTitle>
+                        </CardHeader>
+                        <CardContent className="text-muted-foreground text-xs text-center p-2">
+                          Visualize your career journey with an interactive timeline.
+                        </CardContent>
+                      </Card>
+                    </Link>
 
-                  {/* Timeline Visualization Card */}
-                  <Link href="/timeline">
-                    <Card className="hover:border-primary h-full transition-colors duration-300">
-                      <CardHeader className="items-center text-center">
-                        <div className="bg-primary/10 mb-2 rounded-xl p-3">
-                          <BarChart3 className="text-primary h-8 w-8" />
-                        </div>
-                        <CardTitle>Timeline View</CardTitle>
-                      </CardHeader>
-                      <CardContent className="text-muted-foreground text-center">
-                        Visualize your career journey with an interactive
-                        timeline.
-                      </CardContent>
-                    </Card>
-                  </Link>
+                    {/* InstaFolio Card */}
+                    <Link href="https://spectrumv.space/instafolio" target="_blank">
+                      <Card className="hover:border-primary h-64 w-64 mx-auto transition-colors duration-300">
+                        <CardHeader className="items-center text-center p-2">
+                          <div className="bg-primary/10 mb-1 rounded-xl p-2">
+                            <DraftingCompass className="text-primary h-6 w-6" />
+                          </div>
+                          <CardTitle className="text-base">InstaFolio</CardTitle>
+                        </CardHeader>
+                        <CardContent className="text-muted-foreground text-xs text-center p-2">
+                          Instantly create and share your professional portfolio online.
+                        </CardContent>
+                      </Card>
+                    </Link>
 
-                  {/* Portfolio Builder Card (Coming Soon) */}
-                  <Card className="relative h-full overflow-hidden border-dashed">
-                    <div className="bg-secondary text-secondary-foreground absolute top-2 right-2 rounded-full px-2 py-1 text-xs font-medium">
-                      Coming Soon
-                    </div>
-                    <CardHeader className="items-center text-center opacity-50">
-                      <div className="bg-secondary mb-2 rounded-xl p-3">
-                        <DraftingCompass className="text-secondary-foreground h-8 w-8" />
-                      </div>
-                      <CardTitle>Portfolio Builder</CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-muted-foreground text-center opacity-50">
-                      Create beautiful, interactive portfolios from your career
-                      timeline.
-                    </CardContent>
-                  </Card>
-
-                  {/* File Upload Card */}
-                  <Link href="/upload">
-                    <Card className="hover:border-primary h-full transition-colors duration-300">
-                      <CardHeader className="items-center text-center">
-                        <div className="bg-primary/10 mb-2 rounded-xl p-3">
-                          <UploadCloud className="text-primary h-8 w-8" />
-                        </div>
-                        <CardTitle>File Upload</CardTitle>
-                      </CardHeader>
-                      <CardContent className="text-muted-foreground text-center">
-                        Upload resumes and documents to automatically extract
-                        career data.
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-      </div>
-    </main>
+                    {/* File Upload Card */}
+                    {/* Removed File Upload Card */}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </div>
+        <div className="mt-4 mb-4">
+          <HeroParallax
+            products={products}
+            title={
+              <>Vision to Value | Complexity to Sense-making<sup>*</sup></>
+            }
+            subtitle={
+              <>with Intelligence, Inference and Insights</>
+            }
+          />
+        </div>
+      </main>
+    </>
   );
 }

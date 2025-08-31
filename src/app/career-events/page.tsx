@@ -17,25 +17,8 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { useToast } from "~/hooks/use-toast";
-import {
-  Loader2,
-  Plus,
-  Calendar,
-  Building,
-  User,
-  FileText,
-  Trash2,
-  Briefcase,
-  GraduationCap,
-  Star,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Loader2, Plus, Calendar, Building, User, FileText, Trash2, Briefcase, GraduationCap, Star, Upload } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 // import { Badge } from "~/components/ui/badge";
 import { CareerEventCard } from "~/components/ui/career-event-card";
 
@@ -59,7 +42,7 @@ export default function CareerEventsPage() {
   const {
     data: careerEvents,
     refetch,
-  isLoading: isCareerEventsLoading,
+    isLoading: isCareerEventsLoading,
     error,
   } = api.careerEvent.getAll.useQuery(
     undefined,
@@ -69,6 +52,82 @@ export default function CareerEventsPage() {
   );
   const createCareerEventMutation = api.careerEvent.create.useMutation();
   const deleteCareerEventMutation = api.careerEvent.delete.useMutation();
+
+  // Upload state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const uploadFileMutation = api.upload.uploadFile.useMutation();
+  const processFileMutation = api.upload.processFile.useMutation();
+
+  // Upload handlers
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setSelectedFile(file ?? null);
+  };
+
+  const handleUploadSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!selectedFile) {
+      toast({
+        title: "No file selected",
+        description: "Please select a file to upload.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsUploading(true);
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    reader.onload = async () => {
+      const result = reader.result;
+      const base64Content = typeof result === "string" ? result.split(",")[1] : undefined;
+      if (!base64Content) {
+        toast({
+          title: "Error reading file",
+          description: "Could not read file content.",
+          variant: "destructive",
+        });
+        setIsUploading(false);
+        return;
+      }
+      try {
+        const uploadResult = await uploadFileMutation.mutateAsync({
+          fileName: selectedFile.name,
+          fileContent: base64Content,
+          fileType: selectedFile.type,
+        });
+        toast({
+          title: "Upload successful!",
+          description: `File uploaded to: ${uploadResult.url}`,
+        });
+        const processResult = await processFileMutation.mutateAsync({
+          blobUrl: uploadResult.url,
+        });
+        toast({
+          title: "Processing complete!",
+          description: `Imported ${processResult.importedCount} career events.`,
+        });
+        setSelectedFile(null);
+        await refetch();
+      } catch (error) {
+        toast({
+          title: "Operation failed",
+          description: "Failed to upload or process file.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsUploading(false);
+      }
+    };
+    reader.onerror = (error) => {
+      toast({
+        title: "File read error",
+        description: "Failed to read the selected file.",
+        variant: "destructive",
+      });
+      setIsUploading(false);
+    };
+  };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -102,7 +161,7 @@ export default function CareerEventsPage() {
       return;
     }
 
-  setIsFormSubmitting(true);
+    setIsFormSubmitting(true);
     setErrors({});
 
     try {
@@ -126,14 +185,13 @@ export default function CareerEventsPage() {
       await refetch();
       toast({ title: "Success!", description: "Career event added." });
     } catch (error) {
-      console.error("Error creating career event:", error);
       toast({
         title: "Error",
         description: "Failed to create event.",
         variant: "destructive",
       });
     } finally {
-    setIsFormSubmitting(false);
+      setIsFormSubmitting(false);
     }
   };
 
@@ -157,7 +215,6 @@ export default function CareerEventsPage() {
       await refetch();
       toast({ title: "Success!", description: "Career event deleted." });
     } catch (error) {
-      console.error("Error deleting career event:", error);
       toast({
         title: "Error",
         description: "Failed to delete event.",
@@ -242,13 +299,38 @@ export default function CareerEventsPage() {
             Manage your professional timeline
           </p>
         </div>
-        <Button
-          onClick={() => setShowForm(!showForm)}
-          variant={showForm ? "outline" : "default"}
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          {showForm ? "Cancel" : "Add New Event"}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setShowForm(!showForm)}
+            variant={showForm ? "outline" : "default"}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            {showForm ? "Cancel" : "Add New Event"}
+          </Button>
+          <form onSubmit={handleUploadSubmit} className="flex items-center gap-2">
+            <label htmlFor="career-upload" className="sr-only">Upload File</label>
+            <Input
+              id="career-upload"
+              type="file"
+              accept=".csv,.pdf,.doc,.docx,.txt"
+              onChange={handleFileChange}
+              className="max-w-xs"
+            />
+            <Button type="submit" disabled={isUploading || !selectedFile}>
+              {isUploading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Import Events
+                </>
+              )}
+            </Button>
+          </form>
+        </div>
       </div>
 
       {showForm && (
@@ -407,15 +489,15 @@ export default function CareerEventsPage() {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <Briefcase className="text-primary h-8 w-8" />
-            <h2 className="text-2xl font-bold">Jobs</h2>
+  <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
+  <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Briefcase className="text-primary h-6 w-6" />
+            <h2 className="text-lg font-semibold">Jobs</h2>
           </div>
           {jobs.length > 0 ? (
             jobs.map((event) => (
-              <div key={event.id} className="group relative">
+              <div key={event.id} className="group relative max-w-xs mx-auto">
                 <CareerEventCard event={event} />
                 <Button
                   variant="destructive"
@@ -437,14 +519,14 @@ export default function CareerEventsPage() {
           )}
         </div>
 
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <GraduationCap className="text-primary h-8 w-8" />
-            <h2 className="text-2xl font-bold">Education</h2>
+  <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="text-primary h-6 w-6" />
+            <h2 className="text-lg font-semibold">Education</h2>
           </div>
           {education.length > 0 ? (
             education.map((event) => (
-              <div key={event.id} className="group relative">
+              <div key={event.id} className="group relative max-w-xs mx-auto">
                 <CareerEventCard event={event} />
                 <Button
                   variant="destructive"
@@ -466,14 +548,14 @@ export default function CareerEventsPage() {
           )}
         </div>
 
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <Star className="text-primary h-8 w-8" />
-            <h2 className="text-2xl font-bold">Skills & Projects</h2>
+  <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Star className="text-primary h-6 w-6" />
+            <h2 className="text-lg font-semibold">Skills & Projects</h2>
           </div>
           {skills.length > 0 ? (
             skills.map((event) => (
-              <div key={event.id} className="group relative">
+              <div key={event.id} className="group relative max-w-xs mx-auto">
                 <CareerEventCard event={event} />
                 <Button
                   variant="destructive"

@@ -60,7 +60,7 @@ export const HeroParallax = ({
   return (
     <div
       ref={ref}
-      className="relative flex h-[300vh] flex-col self-auto overflow-hidden py-40 antialiased [perspective:1000px] [transform-style:preserve-3d]"
+      className="relative flex h-[250vh] flex-col self-auto overflow-hidden py-8 antialiased [perspective:1000px] [transform-style:preserve-3d]"
     >
       <Header title={title} subtitle={subtitle} />
       <motion.div
@@ -112,12 +112,13 @@ export const Header = ({
   subtitle: React.ReactNode;
 }) => {
   return (
-    <div className="relative top-0 left-0 mx-auto w-full max-w-7xl px-4 py-20 md:py-40">
+  <div className="relative top-0 left-0 mx-auto w-full max-w-7xl px-4 py-6 md:py-12">
       <motion.h1
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut" }}
-        className="from-primary bg-gradient-to-r via-purple-400 to-pink-500 bg-clip-text text-4xl font-bold text-transparent md:text-8xl"
+        className="bg-gradient-to-r from-gray-700 via-gray-400 to-gray-700 bg-clip-text text-3xl font-semibold text-transparent md:text-7xl font-[Inter,sans-serif]"
+        style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
       >
         {title}
       </motion.h1>
@@ -125,7 +126,8 @@ export const Header = ({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeInOut", delay: 0.2 }}
-        className="text-muted-foreground mt-8 max-w-3xl text-lg md:text-2xl"
+        className="mt-2 max-w-3xl text-lg md:text-2xl font-semibold font-[Poppins,sans-serif] bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 bg-clip-text text-transparent"
+        style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
       >
         {subtitle}
       </motion.p>
@@ -156,11 +158,11 @@ export const ProductCard = ({
           "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
       }}
       key={product.title}
-      className="group/product relative h-96 w-[30rem] shrink-0"
+  className="group/product relative h-72 w-72 md:h-80 md:w-80 lg:h-96 lg:w-96 shrink-0 rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-white transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
     >
       <a
         href={product.link}
-        className="block group-hover/product:shadow-2xl"
+        className="block h-full w-full"
         target="_blank"
         rel="noreferrer"
         aria-label={product.title}
@@ -169,12 +171,12 @@ export const ProductCard = ({
           src={product.thumbnail}
           height="600"
           width="600"
-          className="absolute inset-0 h-full w-full object-cover object-left-top"
+          className="absolute inset-0 h-full w-full object-cover object-center rounded-2xl"
           alt={product.title}
         />
       </a>
-      <div className="pointer-events-none absolute inset-0 h-full w-full bg-gradient-to-t from-black to-transparent opacity-0 group-hover/product:opacity-80"></div>
-      <h2 className="absolute bottom-4 left-4 text-xl font-bold text-white opacity-0 group-hover/product:opacity-100">
+      <div className="pointer-events-none absolute inset-0 h-full w-full bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80"></div>
+      <h2 className="absolute bottom-4 left-4 right-4 text-lg md:text-xl font-bold text-white drop-shadow-lg bg-gradient-to-r from-pink-500 via-yellow-400 to-blue-500 bg-clip-text text-transparent">
         {product.title}
       </h2>
     </motion.div>
