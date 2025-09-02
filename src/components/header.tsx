@@ -26,7 +26,7 @@ export function Header() {
 
   return (
   <header className="border-border/40 bg-[#0e0d0d] sticky top-0 z-50 w-full border-b">
-    <div className="container flex h-16 max-w-screen-2xl items-center"> {/* Reduced header height */}
+    <div className="container flex h-16 max-w-screen-2xl items-center">
       <div className="hidden md:flex w-full items-center">
         <Link href="/" className="flex items-center pr-4 ml-8"> {/* Logo with left margin */}
           <Image src="/logo2.PNG" alt="Logo" width={48} height={48} />
@@ -74,8 +74,7 @@ export function Header() {
                   <Image
                     src={session.user.image}
                     alt={session.user.name ?? "User avatar"}
-                    className={"rounded-full "+styles['avatar-img']}
-
+                    className={"rounded-full " + styles['avatar-img']}
                   />
                 ) : (
                   <User className="h-3 w-3" />
