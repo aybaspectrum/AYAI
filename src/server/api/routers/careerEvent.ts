@@ -23,7 +23,7 @@ export const careerEventRouter = createTRPCRouter({
         description: z.string().min(1, "Description is required"),
         startDate: z.date(),
         endDate: z.date().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Validate that end date is after start date if provided
@@ -72,7 +72,7 @@ export const careerEventRouter = createTRPCRouter({
 
       if (deleteResult.count === 0) {
         throw new Error(
-          "Career event not found or you don't have permission to delete it"
+          "Career event not found or you don't have permission to delete it",
         );
       }
 

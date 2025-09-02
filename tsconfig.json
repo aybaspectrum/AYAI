@@ -28,7 +28,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
@@ -36,6 +37,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
+    "global.d.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]

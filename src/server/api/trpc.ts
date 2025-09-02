@@ -11,7 +11,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { auth } from "../auth";
+import { getServerSession } from "next-auth";
+import { authConfig } from "../auth/config";
 import { db } from "../db";
 
 /**
@@ -26,9 +27,9 @@ import { db } from "../db";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = await auth();
 
+export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const session = await getServerSession(authConfig);
   return {
     db,
     session,
@@ -84,8 +85,8 @@ export const createTRPCRouter = t.router;
  * You can remove this if you don't like it, but it can help catch unwanted waterfalls by simulating
  * network latency that would occur in production but not in local development.
  */
-const timingMiddleware = t.middleware(async ({ next, path }) => {
-  const start = Date.now();
+const timingMiddleware = t.middleware(async ({ next }) => {
+  // ...existing code...
 
   if (t._config.isDev) {
     // artificial delay in dev
@@ -95,8 +96,7 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 
   const result = await next();
 
-  const end = Date.now();
-  console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
+  // ...existing code...
 
   return result;
 });

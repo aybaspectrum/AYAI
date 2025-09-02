@@ -1,0 +1,33 @@
+.rainbow-subtitle {
+  background: linear-gradient(90deg, #ff5f6d 0%, #ffc371 20%, #47cf73 40%, #1fa2ff 60%, #a259ff 80%, #ff5f6d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff;
+}
+.rainbow-link {
+  background: linear-gradient(90deg, #ff5f6d 0%, #ffc371 20%, #47cf73 40%, #1fa2ff 60%, #a259ff 80%, #ff5f6d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #fff;
+  font-weight: 600;
+  transition: filter 0.2s;
+}
+.rainbow-link:hover {
+  filter: brightness(1.2) drop-shadow(0 0 6px #fff7);
+}
+.avatar-container {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #b3e5fc;
+}
+.avatar-img {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}

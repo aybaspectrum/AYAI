@@ -10,23 +10,23 @@ interface SpectrumLogoProps {
   animated?: boolean;
 }
 
-export function SpectrumLogo({ 
-  size = 32, 
-  variant = "default", 
+export function SpectrumLogo({
+  size = 32,
+  variant = "default",
   className = "",
-  animated = false 
+  animated = false,
 }: SpectrumLogoProps) {
   const logoClasses = cn(
     "spectrum-logo",
     `spectrum-logo--${variant}`,
-    className
+    className,
   );
 
   const LogoSVG = () => (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 32 32" 
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
       className={logoClasses}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -34,14 +34,19 @@ export function SpectrumLogo({
       {/* Upper Pyramid */}
       <g className="pyramid-upper">
         {/* Main pyramid shape */}
-        <path 
-          d="M16 4 L6 16 L26 16 Z" 
+        <path
+          d="M16 4 L6 16 L26 16 Z"
           fill="currentColor"
           className="pyramid-fill"
         />
-        
+
         {/* Three V shapes for Vision, Value, Vigour */}
-        <g className="v-shapes" stroke="var(--bg-primary)" strokeWidth="1.5" fill="none">
+        <g
+          className="v-shapes"
+          stroke="var(--bg-primary)"
+          strokeWidth="1.5"
+          fill="none"
+        >
           {/* V for Vision (left) */}
           <path d="M10 10 L12 14 L14 10" className="v-vision" />
           {/* V for Value (center) */}
@@ -50,18 +55,23 @@ export function SpectrumLogo({
           <path d="M18 10 L20 14 L22 10" className="v-vigour" />
         </g>
       </g>
-      
+
       {/* Lower Pyramid (inverted) */}
       <g className="pyramid-lower">
         {/* Main pyramid shape */}
-        <path 
-          d="M16 28 L6 16 L26 16 Z" 
+        <path
+          d="M16 28 L6 16 L26 16 Z"
           fill="currentColor"
           className="pyramid-fill"
         />
-        
+
         {/* Three V shapes (inverted) */}
-        <g className="v-shapes-inverted" stroke="var(--bg-primary)" strokeWidth="1.5" fill="none">
+        <g
+          className="v-shapes-inverted"
+          stroke="var(--bg-primary)"
+          strokeWidth="1.5"
+          fill="none"
+        >
           {/* Inverted V for Vision */}
           <path d="M10 22 L12 18 L14 22" className="v-vision-inv" />
           {/* Inverted V for Value */}
@@ -76,14 +86,14 @@ export function SpectrumLogo({
   if (animated && variant === "loading") {
     return (
       <motion.div
-        animate={{ 
+        animate={{
           scale: [1, 1.05, 1],
-          rotate: [0, 5, -5, 0]
+          rotate: [0, 5, -5, 0],
         }}
-        transition={{ 
-          duration: 2, 
+        transition={{
+          duration: 2,
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: "easeInOut",
         }}
         className="inline-block"
       >
@@ -116,9 +126,9 @@ export const BrandLogo = (props: Omit<SpectrumLogoProps, "variant">) => (
   <SpectrumLogo {...props} variant="brand" size={40} />
 );
 
-export const LoadingLogo = (props: Omit<SpectrumLogoProps, "variant" | "animated">) => (
-  <SpectrumLogo {...props} variant="loading" size={48} animated />
-);
+export const LoadingLogo = (
+  props: Omit<SpectrumLogoProps, "variant" | "animated">,
+) => <SpectrumLogo {...props} variant="loading" size={48} animated />;
 
 // CSS-in-JS styles for the logo variants
 export const logoStyles = `

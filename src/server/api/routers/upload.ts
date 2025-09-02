@@ -19,16 +19,16 @@ interface CsvRow {
 // Type guard to validate CSV row structure
 const isCsvRow = (row: unknown): row is CsvRow => {
   return (
-    typeof row === 'object' &&
+    typeof row === "object" &&
     row !== null &&
-    'type' in row &&
-    'title' in row &&
-    'organization' in row &&
-    'startDate' in row &&
-    typeof (row as Record<string, unknown>).type === 'string' &&
-    typeof (row as Record<string, unknown>).title === 'string' &&
-    typeof (row as Record<string, unknown>).organization === 'string' &&
-    typeof (row as Record<string, unknown>).startDate === 'string'
+    "type" in row &&
+    "title" in row &&
+    "organization" in row &&
+    "startDate" in row &&
+    typeof (row as Record<string, unknown>).type === "string" &&
+    typeof (row as Record<string, unknown>).title === "string" &&
+    typeof (row as Record<string, unknown>).organization === "string" &&
+    typeof (row as Record<string, unknown>).startDate === "string"
   );
 };
 
@@ -49,7 +49,7 @@ export const uploadRouter = createTRPCRouter({
         fileName: z.string(),
         fileContent: z.string(), // Base64 encoded file content
         fileType: z.string(),
-      })
+      }),
     )
     .mutation(async ({ input }) => {
       const { fileName, fileContent, fileType } = input;
@@ -107,7 +107,10 @@ export const uploadRouter = createTRPCRouter({
 
         const type = row.type;
         if (!type || !validCareerEventTypes.includes(type as CareerEventType)) {
-          console.warn(`Skipping row due to invalid CareerEventType: ${type}`, row);
+          console.warn(
+            `Skipping row due to invalid CareerEventType: ${type}`,
+            row,
+          );
           continue; // Skip row if type is invalid
         }
 
@@ -135,7 +138,11 @@ export const uploadRouter = createTRPCRouter({
           await ctx.db.careerEvent.create({ data: careerEventData });
           importedCount++;
         } catch (error) {
-          console.error("Error creating career event from CSV row:", row, error);
+          console.error(
+            "Error creating career event from CSV row:",
+            row,
+            error,
+          );
           // Continue processing other rows even if one fails
         }
       }
@@ -143,4 +150,3 @@ export const uploadRouter = createTRPCRouter({
       return { importedCount };
     }),
 });
-

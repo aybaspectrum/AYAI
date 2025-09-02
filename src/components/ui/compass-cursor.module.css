@@ -1,0 +1,10 @@
+.compass-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: filter 0.1s;
+  filter: drop-shadow(0 2px 8px #a259ff88);
+}
