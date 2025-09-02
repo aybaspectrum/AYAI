@@ -48,6 +48,7 @@ export default function SignInButton() {
           />
         </svg>
       )}
-      {isLoading ? "Signing..." : "Google"}
-    </motion.button>
-  )
+        {isLoading ? "Signing..." : "Google"}
+      </motion.button>
+    );
+  }
